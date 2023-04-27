@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Get started' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container auth-content">
+            <h1 class="register-title auth-title">{% trans 'Create your profile' %}</h1>
+            <form class="auth-form register-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="register__btn btn" type="submit">{% trans 'Create' %}</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

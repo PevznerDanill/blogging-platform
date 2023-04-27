@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Main page' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset hero">
+        <div class="container hero__container">
+            <h1 class="hero__title">. just_BLOGS</h1>
+            <p class="hero__descr">{% trans 'Explore blogs of others and post your own' %}</p>
+        </div>
+    </section>
+
+{% endblock %}

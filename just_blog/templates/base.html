@@ -1,7 +1,11 @@
+{% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Josefin Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>
         {% block title %}
         
@@ -9,6 +13,63 @@
     </title>
 </head>
 <body>
-
+    <div id="page-container">
+        <div id="content-wrap">
+            {% block header %}
+                <header class="header">
+                    <div class="container header__container flex">
+                        <a class="logo a-reset transition-link" href="{% url 'app_main:index' %}">. just_BLOGS</a>
+                        <nav class="header__nav">
+                            <ul class="list-reset flex header__list">
+                                <li class="header__item">
+                                    <a class="transition-link a-reset" href="#">Latest posts</a>
+                                </li>
+                                <li class="header__item">
+                                    <a class="transition-link a-reset" href="#">My blog</a>
+                                </li>
+                                <li class="header__item">
+                                    <a class="transition-link a-reset" href="#">About</a>
+                                </li>
+                                <li class="header__item">
+                                    <a class="transition-link a-reset" href="#">Contacts</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="header__auth">
+                            <a class="btn auth__btn a-reset" href="#">Login</a>
+                            <a class="btn auth__btn a-reset" href="{% url 'app_auth:get_started' %}">Get started</a>
+                        </div>
+                    </div>
+                </header>
+            {% endblock %}
+            <main>
+            {% block body %}
+            {% endblock %}
+            </main>
+        </div>
+        {% block footer  %}
+            <footer class="footer">
+                <div class="container footer__container">
+                    <form class="footer__form" action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ redirect_to }}">
+                        <ul class="flex list-reset footer__list">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <li class="footer__item">
+                                    <label class="transition-link footer__label" for="{{ language.code }}">
+                                        {{ language.name_local|title }}
+                                        <input class="lang-input" type="submit" name="language" value="{{ language.code }}" id="{{ language.code }}">
+                                    </label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </form>
+                </div>
+            </footer>
+        {% endblock %}
+    </div>
 </body>
 </html>
