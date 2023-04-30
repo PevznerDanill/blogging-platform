@@ -26,6 +26,7 @@ urlpatterns = [
     path('main/', include('app_main.urls')),
     path('', lambda req: redirect('main/')),
     path('i18n', include('django.conf.urls.i18n')),
+    path('blogs/', include('app_blog.urls')),
 ]
 
 

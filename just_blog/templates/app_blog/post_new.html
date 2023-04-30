@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'New Post' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="title">{% trans 'Create your new post' %}</h1>
+            <form class="post-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="register__btn btn" type="submit">{% trans 'Create' %}</button>
+            </form>
+            <h2 class="auth-title">
+                {% trans 'Or upload your cvs-file with post. The file should contain three columns: title, tag and the content of the post' %}
+            </h2>
+            <form class="post-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if error %}
+                    <p style="color:red;">{{ error }}</p>
+                {% endif %}
+                {{ form_1.as_p }}
+                <button class="register__btn btn" type="submit">
+                    {% trans 'Upload' %}
+                </button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

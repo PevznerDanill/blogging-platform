@@ -11,10 +11,11 @@
             <h1 class="auth-title update-title">
                 {% trans 'Update your profile' %}
             </h1>
-            <form class="auth-form" method="post" enctype="multipart/form-data">
+            <form class="auth-form update-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 {{ form_1.as_p }}
+
                 <button class="register__btn btn" type="submit">
                     {% trans 'Update' %}
                 </button>

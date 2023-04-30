@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Edit Post' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="auth-title">{% trans 'Edit your post' %}</h1>
+            <form class="post-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if images %}
+                    <p>{% trans 'Delete already uploaded images' %}:</p>
+                    {% for img in images %}
+                        <p>
+                            <label for="{{ img.title }}">
+                                <input class="check-for-delete-input" type="checkbox" id="{{ img.title }}" name="{{ img.title }}">
+                                <img class="post-edit-img" src="{{ img.image.url }}" alt="" style="display: inline-block; width: 30%;">
+                            </label>
+                        </p>
+                    {% endfor %}
+                {% endif %}
+                <button class="btn register__btn" type="submit">{% trans 'Edit' %}</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

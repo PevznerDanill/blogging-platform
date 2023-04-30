@@ -6,12 +6,15 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1 class="auth-title login-title">{% trans 'Login' %}</h1>
-            <form class="login-form" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">{% trans 'Login' %}</button>
-            </form>
-    </div>
+    <section class="section-offset">
+        <div class="container auth-content">
+            <h1 class="auth-title login-title">{% trans 'Login' %}</h1>
+                <form class="auth-form" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="register__btn btn" type="submit">{% trans 'Login' %}</button>
+                </form>
+        </div>
+    </section>
+
 {% endblock %}

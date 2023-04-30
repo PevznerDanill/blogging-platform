@@ -1,10 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    Blogs #{{ profile.pk }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="blogs__title title">{{ profile.user.username }}: {% trans 'blogs' %}</h1>
+            {% if blogs %}
+                <ul class="blogs__list list-reset">
+                {% for blog in blogs %}
+                    <a class="a-reset" href="{% url 'app_blog:blog_detail' pk=blog.pk %}">
+                        <li class="blog__card flex">
+                            <p class="blog__card__item blog__card__title">{{ blog.title }}</p>
+                            {% if blog.posts.all %}
+                                {% with blog.posts.all|random as random_post %}
+                                    {% if random_post.images %}
+                                        {% with random_post.images.all|random as random_image %}
+                                            <img class="blog__card__image" src="{{ random_image.image.url }}" alt="">
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+                            <p class="blog__card__item">{{ blog.description }}</p>
+                            <p class="blog__card__item">{% trans 'Created at' %}: {{ blog.created_at }}</p>
+                        </li>
+                    </a>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <h2 class="no-blogs-msg">{% trans 'You have not started any blog yet' %}</h2>
+            {% endif %}
+        {% if request.user == profile.user %}
+            <p>
+                <a class="btn register__btn a-reset" href="{% url 'app_blog:blog_new' %}">{% trans 'Start a new blog' %}</a>
+            </p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

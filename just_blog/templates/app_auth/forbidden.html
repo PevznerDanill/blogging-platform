@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Forbidden' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container auth-content">
+            <h1 class="auth-title login-title">{% trans 'Forbidden' %}</h1>
+                <p class="profile-content-para">{% trans 'Sorry, you are trying to access forbidden content' %}</p>
+        </div>
+    </section>
+
+{% endblock %}
