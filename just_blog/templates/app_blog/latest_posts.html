@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Posts' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="post-list-title title">. just_BLOGS</h1>
+            {% if posts %}
+                <ul class="post-list-box list-reset">
+                {% for post in posts %}
+                    <li class="post-card">
+                        <div class="post-card-header flex">
+                            <a class="public-avatar-link a-reset" href="{% url 'app_auth:profile_public' pk=post.blog.profile.pk %}">
+                                {% if post.blog.profile.avatar %}
+                                    <img class="public-avatar" src="{{ post.blog.profile.avatar.url }}" alt="">
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="avatar-icon" viewBox="0 0 16 16"> <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/> <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/> </svg>
+                                {% endif %}
+                            </a>
+                            <div class="post-header-info">
+                                <p class="post-author">
+                                    <a class="a-reset" href="{% url 'app_auth:profile_public' pk=post.blog.profile.pk %}">
+                                        {% firstof post.blog.profile.user.first_name post.blog.profile.user.username %}
+                                    </a>
+                                </p>
+                                <p class="post-time">{% trans 'Published' %}: {{ post.published_at }}</p>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p class="post-content-item content-item-title">{{ post.title }}</p>
+                            <p class="post-content-item">{{ post.short_content }}</p>
+                            <a class="a-reset content-link transition-link" href="{% url 'app_blog:post_detail' pk=post.pk %}">
+                                ({% trans 'Keep reading' %})
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                {% trans 'No blogs yet' %}
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
