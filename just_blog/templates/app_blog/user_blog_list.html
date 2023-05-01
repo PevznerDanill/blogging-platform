@@ -2,13 +2,13 @@
 {% load i18n %}
 
 {% block title %}
-    Blogs #{{ profile.pk }}
+    Blogs #{{ cur_profile.pk }}
 {% endblock %}
 
 {% block body %}
     <section class="section-offset">
         <div class="container">
-            <h1 class="blogs__title title">{{ profile.user.username }}: {% trans 'blogs' %}</h1>
+            <h1 class="blogs__title title">{{ cur_profile.user.username }}: {% trans 'blogs' %}</h1>
             {% if blogs %}
                 <ul class="blogs__list list-reset">
                 {% for blog in blogs %}
@@ -33,7 +33,7 @@
             {% else %}
                 <h2 class="no-blogs-msg">{% trans 'You have not started any blog yet' %}</h2>
             {% endif %}
-        {% if request.user == profile.user %}
+        {% if profile == cur_profile %}
             <p>
                 <a class="btn register__btn a-reset" href="{% url 'app_blog:blog_new' %}">{% trans 'Start a new blog' %}</a>
             </p>

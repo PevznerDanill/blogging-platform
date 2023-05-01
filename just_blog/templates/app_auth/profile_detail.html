@@ -46,7 +46,7 @@
             </div>
             <p class="profile-update-btn">
                 <a class="a-reset btn register__btn" href="{% url 'app_auth:profile_update' pk=profile.pk %}">
-                    Update profile
+                    {% trans 'Update profile' %}
                 </a>
             </p>
         </div>

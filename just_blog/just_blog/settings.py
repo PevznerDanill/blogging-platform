@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'app_auth.apps.AppAuthConfig',
     'app_main.apps.AppMainConfig',
     'app_blog.apps.AppBlogConfig',
+    'app_rss.apps.AppRssConfig',
+    'rest_framework',
+    'app_api.apps.AppApiConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -140,8 +144,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# LOGIN_URL = reverse_lazy('app_auth:login')
+LOGIN_URL = reverse_lazy('app_auth:login')
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+}

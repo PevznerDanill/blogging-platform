@@ -38,6 +38,11 @@
             <p class="new_post_btn_para">
                 <a class="a-reset btn register__btn" href="{% url 'app_blog:post_new' pk=blog.pk %}">{% trans 'Add a post' %}</a>
             </p>
+            <p class="blog_actions_para">
+                <a class="a-reset btn register__btn blog-action-btn" href="{% url 'app_blog:blog_edit' pk=blog.pk %}">{% trans 'Edit the blog' %}</a>
+                <a class="a-reset btn register__btn blog-action-btn" href="{% url 'app_blog:blog_delete' pk=blog.pk %}">{% trans 'Delete the blog' %}</a>
+            </p>
+
         {% endif %}
         </div>
     </section>

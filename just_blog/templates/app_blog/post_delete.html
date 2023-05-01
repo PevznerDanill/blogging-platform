@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Delete post#' %}{{ post.pk }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container delete-container flex">
+            <h1 class="title">{% trans 'Are you sure you want to delete the post' %} "{{ post.title }}"?</h1>
+            <form method="post" class="blog-form flex delete-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn register__btn delete-btn" type="submit">{% trans 'Delete' %}</button>
+            </form>
+            <a class="a-reset btn register__btn delete-btn" href="{% url 'app_blog:post_detail' pk=post.pk %}">{% trans 'No' %}</a>
+        </div>
+    </section>
+{% endblock %}

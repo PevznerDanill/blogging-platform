@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Edit blog#' %}{{ blog.pk }}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="title">Edit the blog {{ blog.pk }}</h1>
+            <form method="post" class="blog-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn register__btn" type="submit">Edit</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

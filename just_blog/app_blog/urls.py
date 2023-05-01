@@ -8,6 +8,9 @@ from .views import (
     PostEditView,
     publish_or_archive,
     LatestPostsView,
+    BlogEditView,
+    BlogDeleteView,
+    PostDeleteView,
 )
 from django.shortcuts import redirect, reverse
 
@@ -23,5 +26,8 @@ urlpatterns = [
     path('post-edit/<int:pk>/', PostEditView.as_view(), name='post_edit'),
     path('publish-archive/<int:pk>/', publish_or_archive, name='publish_or_archive'),
     path('posts-latest/', LatestPostsView.as_view(), name='posts_latest'),
-    path('', lambda req: redirect(reverse('app_blog:posts_latest')))
+    path('', lambda req: redirect(reverse('app_blog:posts_latest'))),
+    path('blog-edit/<int:pk>/', BlogEditView.as_view(), name='blog_edit'),
+    path('blog-delete/<int:pk>/', BlogDeleteView.as_view(), name='blog_delete'),
+    path('post-delete/<int:pk>/', PostDeleteView.as_view(), name='post_delete'),
 ]

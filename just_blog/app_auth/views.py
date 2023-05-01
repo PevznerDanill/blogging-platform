@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, DetailView
@@ -44,9 +44,7 @@ class GetStartedView(CreateView):
 def update_view(request: HttpRequest, pk):
     if request.user.profile.pk != pk:
         if not request.user.is_superuser:
-
-            return HttpResponse(content=_('Unauthorized access'), status=403)
-
+            raise PermissionDenied
     if request.method == 'POST':
         user_form = MyUserChangeForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -81,7 +79,7 @@ class MyLogoutView(LogoutView):
     next_page = reverse_lazy('app_main:index')
 
 
-class ProfileDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
+class ProfileDetailView(UserPassesTestMixin, DetailView):
     queryset = (
         Profile.objects.select_related('user')
     )
@@ -90,10 +88,10 @@ class ProfileDetailView(UserPassesTestMixin, LoginRequiredMixin, DetailView):
     context_object_name = 'profile'
 
     def test_func(self):
-        pk = self.kwargs.get('pk')
-        cur_profile = Profile.objects.get(user=self.request.user)
-
-        return pk == cur_profile.pk
+        if self.request.user.is_authenticated:
+            pk = self.kwargs.get('pk')
+            cur_profile = get_object_or_404(Profile, user=self.request.user)
+            return pk == cur_profile.pk
 
 
 class ProfilePublicView(DetailView):
@@ -102,5 +100,11 @@ class ProfilePublicView(DetailView):
     )
     template_name = 'app_auth/profile_public_detail.html'
 
-    context_object_name = 'profile'
+    context_object_name = 'cur_profile'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['profile'] = get_object_or_404(Profile.objects.select_related('user'), user=self.request.user)
+
+        return context

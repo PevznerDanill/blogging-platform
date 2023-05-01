@@ -11,6 +11,9 @@ class Profile(models.Model):
     bio = models.CharField(max_length=256, blank=True, verbose_name=_('bio'))
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name=_('your photo'))
 
+    def __str__(self):
+        return self.user.username
+
     class Meta:
         verbose_name_plural = _('profiles')
         verbose_name = _('profile')

@@ -7,9 +7,28 @@
 
 {% block body %}
     <section class="section-offset hero">
-        <div class="container hero__container">
-            <h1 class="hero__title">. just_BLOGS</h1>
-            <p class="hero__descr">{% trans 'Explore blogs of others and post your own' %}</p>
+        <div class="container hero__container flex">
+            <div class="hero__main">
+                <h1 class="hero__title">. just_BLOGS</h1>
+                <p class="hero__descr">{% trans 'Explore blogs of others and post your own' %}</p>
+            </div>
+            {% if latest_posts %}
+                <ul class="latest-posts-rss list-reset">
+                    <li class="rss-item">
+                        <a href="{% url 'app_rss:posts_feed' %}" class="a-reset btn register__btn">
+                            {% trans 'Subscribe to' %} Rss
+                        </a>
+                    </li>
+                    {% for post in latest_posts %}
+                        <li class="latest-post-rss-item">
+                            <a href="{{ post.get_absolute_url }}" class="a-reset transition-link latest-posts__link">
+                                {{ forloop.counter }}. {{ post.title|title }} {% trans 'by' %} {{ post.profile }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            {% endif %}
         </div>
     </section>
 

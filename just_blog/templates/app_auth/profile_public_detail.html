@@ -1,48 +1,48 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}
-    {% trans 'Profile' %} {{ profile.pk }}
+    {% trans 'Profile' %} {{ cur_profile.pk }}
 {% endblock %}
 
 {% block body %}
     <section class="section-offset">
         <div class="container auth-content">
-            <h1 class="auth-title profile-detail-title">{{profile.user.username}}</h1>
+            <h1 class="auth-title profile-detail-title">{{cur_profile.user.username}}</h1>
 
             <div class="profile-content">
                 <p class="profile-content-para">
-                    {% if profile.avatar %}
-                        <img class="profile_page_avatar" src="{{ profile.avatar.url }}" alt="">
+                    {% if cur_profile.avatar %}
+                        <img class="profile_page_avatar" src="{{ cur_profile.avatar.url }}" alt="">
                     {% endif %}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.first_name %}
-                        {% trans 'Firstname' %}: {{ profile.user.first_name }}
+                    {% if cur_profile.user.first_name %}
+                        {% trans 'Firstname' %}: {{ cur_profile.user.first_name }}
                     {% endif %}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.last_name %}
-                        {% trans 'Last name' %}: {{ profile.user.last_name }}
+                    {% if cur_profile.user.last_name %}
+                        {% trans 'Last name' %}: {{ cur_profile.user.last_name }}
                     {% endif %}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.email %}
-                        {% trans 'Email address' %}: {{ profile.user.email }}
+                    {% if cur_profile.user.email %}
+                        {% trans 'Email address' %}: {{ cur_profile.user.email }}
                     {% endif %}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.age %}
-                        {% trans 'Age' %}: {{ profile.get_age }}
+                    {% if cur_profile.age %}
+                        {% trans 'Age' %}: {{ cur_profile.get_age }}
                     {% endif %}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.bio %}
-                        <p>{{ profile.bio }}</p>
+                    {% if cur_profile.bio %}
+                        <p>{{ cur_profile.bio }}</p>
                     {% endif %}
                 </p>
             </div>
             <p class="profile-update-btn">
-                <a class="a-reset btn register__btn" href="{% url 'app_blog:user_blog_list' pk=profile.pk %}">
+                <a class="a-reset btn register__btn" href="{% url 'app_blog:user_blog_list' pk=cur_profile.pk %}">
                     {% trans "To user's blogs" %}
                 </a>
             </p>

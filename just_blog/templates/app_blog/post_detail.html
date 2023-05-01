@@ -22,32 +22,34 @@
                 </p>
             {% endif %}
         </div>
-        {% if post.images.all %}
-            <div class="images-box">
-                <div class="slideshow-container">
-                    {% for image in post.images.all %}
-                        <div class="mySlides fade">
-                            <div class="numbertext">{{ forloop.counter }}</div>
-                            <img src="{{ image.image.url }}" alt="" style="width: 100%;">
-                        </div>
-                    {% endfor %}
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
-                <div style="text-align:center">
-                {% for image in post.images.all %}
-                  <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
-                {% endfor %}
-                </div>
-            </div>
-        {% endif %}
         <div class="post-content-container">
-            <p>{{ post.content|linebreaks }}</p>
+            {% if post.images.all %}
+                <div class="images-box">
+                    <div class="slideshow-container">
+                        {% for image in post.images.all %}
+                            <div class="mySlides fade">
+                                <div class="numbertext">{{ forloop.counter }}</div>
+                                <img src="{{ image.image.url }}" alt="" style="width: 100%;">
+                            </div>
+                        {% endfor %}
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    </div>
+                    <div style="text-align:center">
+                    {% for image in post.images.all %}
+                      <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
+                    {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="post-text-container">
+                {{ post.content|linebreaks }}
+            </div>
         </div>
-
             <p>
                 {% if post.profile == profile %}
                     <a class="a-reset btn register__btn" href="{% url 'app_blog:post_edit' pk=post.pk %}">{% trans 'Edit' %}</a>
+                    <a class="a-reset btn register__btn" href="{% url 'app_blog:post_delete' pk=post.pk %}">{% trans 'Delete the post' %}</a>
                 {% endif %}
                 <a class="a-reset btn register__btn" href="{% url 'app_blog:blog_detail' pk=post.blog.pk %}">{% trans 'Back to the blog' %}</a>
             </p>

@@ -38,7 +38,7 @@ body {
 
 #page-container {
   position: relative;
-  min-height: 50vh;
+  min-height: 100vh;
 }
 
 #content-wrap {
@@ -189,9 +189,33 @@ body {
     padding-bottom: 150px;
 }
 
+.hero__container {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.latest-posts-rss {
+  margin: 0;
+}
+
+.latest-posts__link {
+  font-size: 16px;
+  /*display: inline-block;*/
+
+}
+.latest-post-rss-item:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.rss-item {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 18px;
+  /*color: floralwhite;*/
+}
 
 .hero__title {
-  font-size: 7em;
+  font-size: 96px;
   color: floralwhite;
   margin-bottom: 20px;
 }
@@ -251,6 +275,8 @@ body {
 
 .update-form p {
   display: flex;
+  flex-wrap: wrap;
+  width: 550px;
   gap: 10px;
   align-items: center;
 }
@@ -287,14 +313,6 @@ body {
 .update-form input[type=file]::file-selector-button,
 .post-form input[type=file]::file-selector-button {
   padding: 10px 15px;
-}
-
-.update-form p {
-  display: flex;
-  flex-wrap: wrap;
-  width: 600px;
-  gap: 10px;
-  align-items: center;
 }
 
 .profile_page_avatar {
@@ -398,6 +416,33 @@ body {
   margin-bottom: 24px;
 }
 
+.blog_actions_para {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.delete-container {
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+}
+
+.delete-form {
+  justify-content: center;
+}
+
+.delete-btn {
+  display: inline-block;
+  text-align: center;
+  align-self: center;
+  width: 100px;
+}
+
+.blog-action-btn:last-child {
+  margin-right: 0;
+}
+
 .title-container {
   flex-direction: column;
   align-items: center;
@@ -420,6 +465,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.new_post_btn_para:not(:last-child) {
+  margin-bottom: 12px;
 }
 
 .post__card__title {
@@ -473,13 +522,18 @@ body {
   font-size: 24px;
 }
 
-.post-content-container {
+.post-text-container {
   font-size: 20px;
   line-height: 20px;
   margin-bottom: 32px;
+  min-height: 100%;
 }
 
-.post-content-container p:not(:last-child) {
+.post-content-container {
+  min-height: 800px;
+}
+
+.post-text-container p:not(:last-child) {
   margin-bottom: 12px;
 }
 
@@ -545,7 +599,7 @@ body {
 
 .images-box {
   float: left;
-  max-width: 30%;
+  max-width: 50%;
   margin-bottom: 12px;
   margin-right: 12px;
 }

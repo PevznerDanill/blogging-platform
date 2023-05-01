@@ -35,7 +35,7 @@
                                     </li>
                                     <li class="header__item">
                                         <a class="transition-link a-reset" href="{% url 'app_blog:user_blog_list' pk=profile.pk%}">
-                                            {% trans 'My blogs' %}
+                                            {{ profile.user.username }}: {% trans 'blogs' %}
                                         </a>
                                     </li>
                                 {% endif %}

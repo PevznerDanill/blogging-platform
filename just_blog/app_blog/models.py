@@ -13,7 +13,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=128, verbose_name=_('title'))
     description = models.CharField(max_length=256, verbose_name=_('description'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name=_('profile'))
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name=_('profile'), related_name='blogs')
 
     def __str__(self):
         return f'{self.title}#{self.pk}'
@@ -28,6 +28,9 @@ class Post(models.Model):
     published_at = models.DateTimeField(verbose_name=_('published at'), null=True, blank=True)
     blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name='posts')
     profile = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name='posts')
+
+    def __str__(self):
+        return self.title
 
     def publish(self):
         self.is_published = True
