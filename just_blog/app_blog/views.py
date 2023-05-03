@@ -8,7 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from csv import reader
 from django.http import HttpRequest, HttpResponseRedirect, Http404
-from django.db.models import Prefetch, F
+from app_auth.utils import get_profile_for_context
+from .utils import save_post_from_csv
 
 
 class UserBlogListView(ListView):
@@ -28,7 +29,7 @@ class UserBlogListView(ListView):
         pk = self.kwargs.get('pk')
         context = super().get_context_data(object_list=None, **kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = get_object_or_404(Profile.objects.select_related('user'), user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         context['cur_profile'] = get_object_or_404(Profile.objects.select_related('user'), pk=pk)
         return context
 
@@ -39,11 +40,11 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['profile'] = get_profile_for_context(self.request)
         return context
 
     def form_valid(self, form):
-        form.instance.profile = Profile.objects.get(user=self.request.user)
+        form.instance.profile = get_profile_for_context(self.request)
         self.object = form.save()
         return super().form_valid(form)
 
@@ -61,7 +62,7 @@ class BlogDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         return context
 
 
@@ -71,13 +72,13 @@ class BlogDeleteView(DeleteView):
     context_object_name = 'blog'
 
     def get_success_url(self):
-        cur_profile = Profile.objects.get(user=self.request.user)
-        return reverse('app_blog:user_blog_list', kwargs={'pk': cur_profile.pk})
+        return reverse('app_blog:user_blog_list', kwargs={'pk': self.cur_profile.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            self.cur_profile = get_profile_for_context(self.request)
+            context['profile'] = self.cur_profile
         return context
 
 
@@ -97,7 +98,7 @@ class PostDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         return context
 
 
@@ -113,7 +114,7 @@ class PostCreateView(UserPassesTestMixin, CreateView):
         if self.request.user.is_authenticated:
             pk = self.kwargs.get('pk')
             cur_blog = get_object_or_404(Blog.objects.select_related('profile'), pk=pk)
-            cur_user = get_object_or_404(Profile, user=self.request.user)
+            cur_user = get_profile_for_context(self.request)
             return cur_blog.profile.pk == cur_user.pk
 
     def get_success_url(self, new_object=None):
@@ -126,7 +127,7 @@ class PostCreateView(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         blog_pk = self.kwargs.get('pk')
         form.instance.blog = Blog.objects.get(pk=blog_pk)
-        form.instance.profile = Profile.objects.get(user=self.request.user)
+        form.instance.profile = get_profile_for_context(self.request)
         self.object = form.save()
         if self.request.FILES:
             images = self.request.FILES.getlist('images')
@@ -137,7 +138,7 @@ class PostCreateView(UserPassesTestMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['profile'] = get_profile_for_context(self.request)
         context['form'] = self.get_form()
         context['form_1'] = PostFileForm
         return context
@@ -153,6 +154,7 @@ class PostCreateView(UserPassesTestMixin, CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         form_2 = PostFileForm(request.POST, request.FILES)
+        profile = get_profile_for_context(self.request)
 
         if form.is_valid():
             return self.form_valid(form)
@@ -162,50 +164,26 @@ class PostCreateView(UserPassesTestMixin, CreateView):
             csv_file_str = csv_file.decode('utf-8').splitlines()
             try:
                 csv_reader = reader(csv_file_str, delimiter=',', quotechar='"')
-                for row in csv_reader:
-                    title = row[0]
-                    tag = row[1]
-                    content = row[2]
-                    if not len(title) <= 70 and not len(row) == 3:
-                        return self.get_invalid_context()
-                    blog_pk = self.kwargs.get('pk')
-                    blog_instance = Blog.objects.get(pk=blog_pk)
-                    profile_instance = Profile.objects.get(user=self.request.user)
-                    new_post = Post(content=content, blog=blog_instance, title=title, tag=tag, profile=profile_instance)
-                    new_post.save()
+                result = save_post_from_csv(
+                    csv_reader=csv_reader,
+                    profile=profile,
+                    kwargs=self.kwargs
+                    )
+                if not result:
+                    return self.get_invalid_context()
+
             except IndexError:
-                csv_reader = reader(csv_file_str, delimiter=',', quotechar='"')
-                for row in csv_reader:
-                    title = row[0]
-                    tag = row[1]
-                    content = row[2]
-                    if not len(title) <= 70 and not len(row) == 3:
-                        return self.get_invalid_context()
-                    blog_pk = self.kwargs.get('pk')
-                    blog_instance = Blog.objects.get(pk=blog_pk)
-                    profile_instance = Profile.objects.get(user=self.request.user)
-                    new_post = Post(content=content, blog=blog_instance, title=title, tag=tag, profile=profile_instance)
-                    new_post.save()
+                csv_reader = reader(csv_file_str, delimiter=';', quotechar='"')
+                result = save_post_from_csv(
+                    csv_reader=csv_reader,
+                    profile=profile,
+                    kwargs=self.kwargs
+                )
+                if not result:
+                    return self.get_invalid_context()
             return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
-
-
-# class BlogPostsListView(ListView):
-#     template_name = 'app_blog/blog_posts.html'
-#     context_object_name = 'posts'
-#
-#     def get_queryset(self):
-#         blog_pk = self.kwargs.get('pk')
-#         return Post.objects.select_related('blog').prefetch_related('images').filter(blog__id=blog_pk)
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(object_list=None, **kwargs)
-#
-#         if self.request.user.is_authenticated:
-#             context['profile'] = Profile.objects.get(user=self.request.user)
-#
-#         return context
 
 
 class PostDetailView(UserPassesTestMixin, DetailView):
@@ -218,13 +196,13 @@ class PostDetailView(UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         return context
 
     def test_func(self):
         cur_profile = None
         if self.request.user.is_authenticated:
-            cur_profile = Profile.objects.get(user=self.request.user)
+            cur_profile = get_profile_for_context(self.request)
         cur_post = Post.objects.get(pk=self.kwargs.get('pk'))
         return cur_post.is_published or cur_profile == cur_post.profile
 
@@ -240,13 +218,13 @@ class BlogEditView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         if self.request.user.is_authenticated:
             cur_blog = get_object_or_404(Blog.objects.select_related('profile'), pk=self.kwargs.get('pk'))
-            cur_profile = get_object_or_404(Profile, user=self.request.user)
+            cur_profile = get_profile_for_context(self.request)
             return cur_blog.profile == cur_profile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         return context
 
     def get_success_url(self):
@@ -263,15 +241,15 @@ class PostEditView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         if self.request.user.is_authenticated:
             return (
-                get_object_or_404(Post.objects.select_related('profile')).profile ==
-                Profile.objects.get(user=self.request.user) or
+                get_object_or_404(Post.objects.select_related('profile'), pk=self.kwargs.get('pk')).profile ==
+                get_profile_for_context(self.request) or
                 self.request.user.is_superuser
             )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['profile'] = Profile.objects.get(user=self.request.user)
+        context['profile'] = get_profile_for_context(self.request)
         context['images'] = Image.objects.filter(post=self.object)
         return context
 
@@ -294,7 +272,7 @@ class PostEditView(UserPassesTestMixin, UpdateView):
 @login_required
 def publish_or_archive(request: HttpRequest, pk) -> HttpResponseRedirect:
     cur_post = get_object_or_404(Post.objects.select_related('profile'), pk=pk)
-    if cur_post.profile != get_object_or_404(Profile, user=request.user):
+    if cur_post.profile != get_profile_for_context(request):
         raise PermissionDenied
     if cur_post.is_published:
         cur_post.archive()
@@ -315,6 +293,5 @@ class LatestPostsView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = Profile.objects.get(user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
         return context
-

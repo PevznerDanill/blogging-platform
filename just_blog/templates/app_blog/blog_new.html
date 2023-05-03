@@ -8,12 +8,11 @@
 {% block body %}
     <section class="section-offset">
         <div class="container">
-            <h1 class="title">Create your new blog</h1>
+            <h1 class="title">{% trans 'Create your new blog' %}</h1>
             <form method="post" class="blog-form">
                 {% csrf_token %}
                 {{ form.as_p }}
-
-                <button class="btn register__btn" type="submit">Create</button>
+                <button class="btn register__btn" type="submit">{% trans 'Create' %}</button>
             </form>
         </div>
     </section>

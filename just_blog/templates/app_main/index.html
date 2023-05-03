@@ -21,7 +21,7 @@
                     </li>
                     {% for post in latest_posts %}
                         <li class="latest-post-rss-item">
-                            <a href="{{ post.get_absolute_url }}" class="a-reset transition-link latest-posts__link">
+                            <a href="{% url 'app_blog:post_detail' pk=post.pk %}" class="a-reset transition-link latest-posts__link">
                                 {{ forloop.counter }}. {{ post.title|title }} {% trans 'by' %} {{ post.profile }}
                             </a>
                         </li>

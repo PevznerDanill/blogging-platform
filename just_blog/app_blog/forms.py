@@ -9,9 +9,16 @@ class BlogForm(forms.ModelForm):
         model = Blog
         fields = 'title', 'description',
 
-    title = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class': 'input blog-title-input'}))
-    description = forms.CharField(max_length=256, widget=forms.Textarea(attrs={'class': 'input blog-descr-input',
-                                                                               'cols': '50', 'rows': '5'}))
+    title = forms.CharField(
+        max_length=128,
+        widget=forms.TextInput(attrs={'class': 'input blog-title-input'}),
+        label=_('Title')
+    )
+    description = forms.CharField(
+        max_length=256,
+        widget=forms.Textarea(attrs={'class': 'input blog-descr-input','cols': '50', 'rows': '5'}),
+        label=_('Description')
+    )
 
 
 class PostForm(forms.ModelForm):
@@ -20,8 +27,16 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = 'title', 'tag', 'content', 'images',
 
-    title = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class': 'input post-title-input'}))
-    tag = forms.CharField(max_length=70, widget=forms.TextInput(attrs={'class': 'input'}))
+    title = forms.CharField(
+        max_length=128,
+        widget=forms.TextInput(attrs={'class': 'input post-title-input'}),
+        label=_('Title')
+    )
+    tag = forms.CharField(
+        max_length=70,
+        widget=forms.TextInput(attrs={'class': 'input'}),
+        label=_('Tag'),
+    )
 
     images = forms.ImageField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}),
@@ -37,5 +52,7 @@ class PostForm(forms.ModelForm):
 
 
 class PostFileForm(forms.Form):
-    file = forms.FileField(label=_('Csv file'),
-                           widget=forms.ClearableFileInput(attrs={'id': 'csv_blog_id'}))
+    file = forms.FileField(
+        label=_('Csv file'),
+        widget=forms.ClearableFileInput(attrs={'id': 'csv_blog_id'})
+    )

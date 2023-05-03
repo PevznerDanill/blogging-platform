@@ -3,9 +3,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% block scripts %}
+
+{% endblock %}
+
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Josefin Sans' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
     <title>
         {% block title %}
         
@@ -40,19 +45,19 @@
                                     </li>
                                 {% endif %}
                                 <li class="header__item">
-                                    <a class="transition-link a-reset" href="#">About</a>
+                                    <a class="transition-link a-reset" href="#">{% trans 'About' %}</a>
                                 </li>
                                 <li class="header__item">
-                                    <a class="transition-link a-reset" href="#">Contacts</a>
+                                    <a class="transition-link a-reset" href="#">{% trans 'Contacts' %}</a>
                                 </li>
                             </ul>
                         </nav>
                         <div class="header__auth">
                             {% if request.user.is_authenticated %}
-                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:logout' %}">Logout</a>
+                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:logout' %}">{% trans 'Logout' %}</a>
                             {% else %}
-                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:login' %}">Login</a>
-                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:get_started' %}">Get started</a>
+                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:login' %}">{% trans 'Login' %}</a>
+                                <a class="btn auth__btn a-reset" href="{% url 'app_auth:get_started' %}">{% trans 'Get started' %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -87,9 +92,9 @@
             </footer>
         {% endblock %}
     </div>
-    <script>
-        {% block script %}
-        {% endblock %}
-    </script>
+
+    {% block script %}
+    {% endblock %}
+
 </body>
 </html>

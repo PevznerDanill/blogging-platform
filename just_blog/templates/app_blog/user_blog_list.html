@@ -17,7 +17,7 @@
                             <p class="blog__card__item blog__card__title">{{ blog.title }}</p>
                             {% if blog.posts.all %}
                                 {% with blog.posts.all|random as random_post %}
-                                    {% if random_post.images %}
+                                    {% if random_post.images.all %}
                                         {% with random_post.images.all|random as random_image %}
                                             <img class="blog__card__image" src="{{ random_image.image.url }}" alt="">
                                         {% endwith %}

@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, reverse
-from rest_framework.settings import api_settings
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from app_auth.models import Profile
 from app_blog.models import Blog, Post, Image
-from rest_framework.generics import GenericAPIView, RetrieveUpdateDestroyAPIView, RetrieveDestroyAPIView, CreateAPIView, RetrieveAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
+from rest_framework.generics import (
+    GenericAPIView,
+    RetrieveUpdateDestroyAPIView,
+    CreateAPIView,
+)
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from .serializers import (
     ProfileSerializer,
     CreateUserSerializer,
@@ -18,11 +20,10 @@ from .serializers import (
     ImageDetailSerializer,
     PostSerializer,
 )
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest
 from rest_framework.response import Response
 from .filters import ProfileFilter, PostFilter, BlogFilter
-from django.db.models import F
-from rest_framework import filters, viewsets, status
+from rest_framework import filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.models import User
 from .permissions import IsUserOrReadOnly, IsBlogsOwner, IsPostOwner, IsImageOwner
@@ -141,8 +142,6 @@ class PostUpdateApiView(RetrieveUpdateDestroyAPIView):
         new_serializer = PostDetailSerializer(instance=self.get_object())
 
         if getattr(instance, '_prefetched_objects_cache', None):
-            # If 'prefetch_related' has been applied to a queryset, we need to
-            # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
         return Response(new_serializer.data)

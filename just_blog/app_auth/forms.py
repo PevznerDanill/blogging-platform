@@ -30,6 +30,7 @@ class MyUserCreationForm(UserCreationForm):
         error_messages={
             "unique": _("A user with that username already exists."),
         },
+        label=_('User name')
     )
 
 
@@ -38,15 +39,31 @@ class MyUserChangeForm(UserChangeForm):
         model = User
         fields = 'first_name', 'last_name', 'email',
 
-    first_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'input'}))
-    last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'input'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input email-input'}))
+    first_name = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'input'}),
+        label=_('First name')
+    )
+
+    last_name = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'input'}),
+        label=_('Last name')
+    )
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'input email-input'}),
+        label=_('Email')
+    )
 
     password = None
 
 
 class MyLoginForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={"autofocus": True, 'class': 'input'}))
+    username = UsernameField(
+        widget=forms.TextInput(attrs={"autofocus": True, 'class': 'input'}),
+        label=_('User name')
+    )
     password = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -60,10 +77,17 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = 'age', 'bio', 'avatar',
 
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'input', 'cols': '50', 'rows': '5'},), required=False, label=_('Bio'))
+    bio = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'input', 'cols': '50', 'rows': '5'},),
+        required=False,
+        label=_('Bio')
+    )
 
-    age = forms.DateField(widget=forms.SelectDateWidget(years=range(1902, 2018), attrs={'class': 'input age-input'}),
-        required=False, label=_('Age'))
+    age = forms.DateField(
+        widget=forms.SelectDateWidget(years=range(1902, 2018), attrs={'class': 'input age-input'}),
+        required=False,
+        label=_('Age')
+    )
 
     avatar = forms.ImageField(
         label=_('Avatar'),

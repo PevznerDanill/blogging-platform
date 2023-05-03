@@ -16,7 +16,7 @@ class LatestPostsFeed(Feed):
         return item.title
 
     def item_description(self, item: Post) -> str:
-        return item.short_content()
+        return item.title
 
     def item_link(self, item: Post) -> str:
         return reverse('app_blog:post_detail', kwargs={'pk': item.pk})

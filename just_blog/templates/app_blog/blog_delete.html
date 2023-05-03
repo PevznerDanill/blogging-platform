@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans 'Delete blog#' %}{{ blog.pk }}
+    {% trans 'Delete blog' %}#{{ blog.pk }}
 {% endblock %}
 
 {% block body %}
@@ -14,7 +14,9 @@
                 {{ form.as_p }}
                 <button class="btn register__btn delete-btn" type="submit">{% trans 'Delete' %}</button>
             </form>
-            <a class="a-reset btn register__btn delete-btn" href="{% url 'app_blog:blog_detail' pk=blog.pk %}">{% trans 'No' %}</a>
+            <a class="a-reset btn register__btn delete-btn" href="{% url 'app_blog:blog_detail' pk=blog.pk %}">
+                {% trans 'No' %}
+            </a>
         </div>
     </section>
 {% endblock %}

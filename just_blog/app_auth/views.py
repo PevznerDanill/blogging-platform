@@ -2,15 +2,15 @@ from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, DetailView
-from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import MyUserChangeForm, ProfileForm, MyLoginForm, MyUserCreationForm
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
+from .utils import get_profile_for_context
 
 
 class GetStartedView(CreateView):
@@ -60,7 +60,7 @@ def update_view(request: HttpRequest, pk):
     context = {
         'form': user_form,
         'form_1': profile_form,
-        'profile': Profile.objects.get(user=request.user)
+        'profile': get_profile_for_context(request)
     }
 
     return render(request, 'app_auth/profile_update.html', context=context)
@@ -71,7 +71,7 @@ class MyLoginView(LoginView):
     form_class = MyLoginForm
 
     def get_success_url(self):
-        cur_profile = Profile.objects.get(user=self.request.user)
+        cur_profile = get_profile_for_context(self.request)
         return reverse('app_auth:profile_detail', kwargs={'pk': cur_profile.pk})
 
 
@@ -90,7 +90,7 @@ class ProfileDetailView(UserPassesTestMixin, DetailView):
     def test_func(self):
         if self.request.user.is_authenticated:
             pk = self.kwargs.get('pk')
-            cur_profile = get_object_or_404(Profile, user=self.request.user)
+            cur_profile = get_profile_for_context(self.request)
             return pk == cur_profile.pk
 
 
@@ -105,6 +105,6 @@ class ProfilePublicView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['profile'] = get_object_or_404(Profile.objects.select_related('user'), user=self.request.user)
+            context['profile'] = get_profile_for_context(self.request)
 
         return context

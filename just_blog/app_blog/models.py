@@ -24,12 +24,17 @@ class Post(models.Model):
     tag = models.CharField(max_length=70, verbose_name=_('tag'))
     content = models.TextField(verbose_name=_('content'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name=_('is published'))
     published_at = models.DateTimeField(verbose_name=_('published at'), null=True, blank=True)
-    blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name='posts')
-    profile = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name='posts')
+    blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name='posts', verbose_name=_('blog'))
+    profile = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name='posts', verbose_name=_('profile'))
 
     def __str__(self):
+        return self.title
+
+    def short_title(self):
+        if len(self.title) > 80:
+            return f'{self.title[:80]}...'
         return self.title
 
     def publish(self):
@@ -56,7 +61,7 @@ class Post(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=20, verbose_name=_('title'))
-    image = models.ImageField(upload_to='images/', verbose_name='image')
+    image = models.ImageField(upload_to='images/', verbose_name=_('image'))
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', verbose_name=_('post'))
 
     class Meta:

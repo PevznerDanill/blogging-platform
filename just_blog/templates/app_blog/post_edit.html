@@ -10,7 +10,25 @@
             <h1 class="auth-title">{% trans 'Edit your post' %}</h1>
             <form class="post-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {% for field in form %}
+                    <div class="form-post-box">
+                        {% if field.errors %}
+                            <ul class="errors">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if field.label == 'Images' or field.label == 'Изображения' %}
+                             <label class="post_images_label btn register__btn">{{ field.label }}{{ field }}</label>
+{#                            <div id="display_file"><div>#}
+                        {% else %}
+                            <label>{{ field.label }}:</label>{{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+{#                {{ form.as_p }}#}
                 {% if images %}
                     <p>{% trans 'Delete already uploaded images' %}:</p>
                     {% for img in images %}

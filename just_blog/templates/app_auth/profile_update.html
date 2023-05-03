@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+
 {% block title %}
     {% trans 'Profile Update' %}
 {% endblock %}
@@ -15,12 +16,12 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 {{ form_1.as_p }}
-
                 <button class="register__btn btn" type="submit">
                     {% trans 'Update' %}
                 </button>
             </form>
         </div>
     </section>
-
 {% endblock %}
+
+
