@@ -15,7 +15,33 @@
             <form class="auth-form update-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {{ form_1.as_p }}
+                {% for field in form_1 %}
+                    <div class="form-post-box {% if field.label == 'Upload your avatar' or field.label == "Загрузите ваш аватар" or field.label == 'Carga tu avatar' %}avatar-box{% endif %}">
+                        {% if field.errors %}
+                            <ul class="errors">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if field.label == 'Upload your avatar' or field.label == "Загрузите ваш аватар" or field.label == 'Carga tu avatar' %}
+                            {% if profile.avatar %}
+                                <div class="cur-avatar-box flex">
+                                    <span class="cur-avatar-text">{% trans 'Current avatar:' %}</span>
+                                    <img class="profile_page_avatar" src="{{ profile.avatar.url }}" alt="">
+                                </div>
+                                <div class="new-avatar-input-box">
+                                    <label for="id_avatar" class="btn register__btn avatar-input-label">{% trans 'Upload your new avatar' %}</label>{{ field }}
+                                    <span id="new-avatar-file"></span>
+                                </div>
+                            {% else %}
+                                <label for="id_avatar" class="btn register__btn">{{ field.label }}</label>{{ field }}
+                            {% endif %}
+                        {% else %}
+                            <label>{{ field.label }}:</label>{{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
                 <button class="register__btn btn" type="submit">
                     {% trans 'Update' %}
                 </button>
@@ -24,4 +50,17 @@
     </section>
 {% endblock %}
 
+{% block script %}
+<script>
+$(document).ready(function() {
 
+  var input = document.getElementById('id_avatar');
+
+  input.addEventListener('change', function() {
+      var span = document.getElementById('new-avatar-file');
+      span.textContent = input.files[0].name;
+    });
+  });
+
+</script>
+{% endblock %}

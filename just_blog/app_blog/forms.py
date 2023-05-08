@@ -4,6 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class BlogForm(forms.ModelForm):
+    """
+    A form for Blog model.
+    """
 
     class Meta:
         model = Blog
@@ -22,7 +25,9 @@ class BlogForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-
+    """
+    A form for Post model.
+    """
     class Meta:
         model = Post
         fields = 'title', 'tag', 'content', 'images',
@@ -41,17 +46,20 @@ class PostForm(forms.ModelForm):
     images = forms.ImageField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}),
         required=False,
-        label=_('Images')
+        label=_('Upload images'),
     )
 
     content = forms.CharField(
         max_length=10**10,
         widget=forms.Textarea({"cols": "100", "rows": "10", 'class': 'input'}),
-        label=_('Post content')
+        label=_('Post content'),
     )
 
 
 class PostFileForm(forms.Form):
+    """
+    A form for the creation of a new Post instance with a csv file.
+    """
     file = forms.FileField(
         label=_('Csv file'),
         widget=forms.ClearableFileInput(attrs={'id': 'csv_blog_id'})

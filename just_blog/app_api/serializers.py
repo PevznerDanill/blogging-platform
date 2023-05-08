@@ -1,48 +1,43 @@
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 from app_auth.models import Profile
 from django.contrib.auth.models import User
 from app_blog.models import Blog, Post, Image
+from typing import Dict, Union
 
 
-class CurrentProfileDefault:
-    requires_context = True
+class CurrentProfileDefault(CurrentUserDefault):
+    """
+        Overrides the CurrentUserDefault field from rest_framework. In the __call__ method
+        instead of returning request.user instance gets the related Profile instance and
+        returns it.
+    """
 
     def __call__(self, serializer_field):
         cur_profile = Profile.objects.get(user=serializer_field.context['request'].user)
         return cur_profile
 
-    def __repr__(self):
-        return '%s()' % self.__class__.__name__
 
-
-class ProfileUpdateSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Profile model with the fields bio, age and avatar (ergo all except user)
+        Used in the UserSerializer for the definition of the field profile.
+    """
     class Meta:
         model = Profile
-        fields = 'bio', 'age', 'avatar'
+        fields = 'id', 'bio', 'age', 'avatar', 'user',
+        extra_kwargs = {'bio': {'required': False}, 'age': {'required': False}}
 
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = 'id', 'username', 'first_name', 'last_name', 'email', 'profile'
-        extra_kwargs = {'username': {'read_only': True}}
-
-    profile = ProfileUpdateSerializer()
-
-    def update(self, instance, validated_data):
-        cur_profile = instance.profile
-        profile_data = validated_data.pop('profile')
-        for key, value in profile_data.items():
-            setattr(cur_profile, key, value)
-        cur_profile.save()
-        for key, value in validated_data.items():
-            setattr(instance, key, value)
-        instance.save()
-        return instance
+    user = serializers.HiddenField(default=CurrentUserDefault())
+    avatar = serializers.ImageField(required=False)
 
 
 class ProfileShortSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Profile model with the fields id and the field username
+        taken from the related User instance.
+        Used in PostSerializer and BlogDetailSerializer for the definition of the field profile.
+    """
     username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
@@ -51,13 +46,23 @@ class ProfileShortSerializer(serializers.ModelSerializer):
 
 
 class BlogShortSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Blog model with the fields id and title.
+        Used in PostSerializer for the definition of the blog field.
+    """
 
     class Meta:
         model = Blog
         fields = 'id', 'title'
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileFullSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Profile model. Not only includes all of its fields but also
+        the fields of the related User instance.
+        The fields blogs and posts are represented as hyper linked related fields.
+        Used in the ProfileListApiView.
+    """
     username = serializers.CharField(source='user.username', read_only=True)
     first_name = serializers.CharField(source='user.first_name', read_only=True)
     last_name = serializers.CharField(source='user.last_name', read_only=True)
@@ -83,6 +88,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class BlogCreateSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Blog model with the fields id, title,
+        description and profile, taken as a CurrentProfileDefault hidden field.
+        Used in BlogCreateApiView.
+    """
 
     class Meta:
         model = Blog
@@ -93,6 +103,11 @@ class BlogCreateSerializer(serializers.ModelSerializer):
 
 
 class ImageShortSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Image model with the fields id and title.
+        Used in the PostSerializer and the PostDetailSerializer for the definition
+        of the images field.
+    """
 
     class Meta:
         model = Image
@@ -100,6 +115,10 @@ class ImageShortSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Post model with all of its fields.
+        Used in the PostListApiView.
+    """
 
     class Meta:
         model = Post
@@ -110,26 +129,19 @@ class PostSerializer(serializers.ModelSerializer):
     images = ImageShortSerializer(many=True, read_only=True)
 
 
-class ImageCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Image
-        fields = 'image',
-
-
-class CreateUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = 'username', 'password',
-        extra_kwargs = {'password': {'write_only': True}}
-
-
 class BlogDetailSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Blog model with the field id, title,
+        description, posts and profile.
+        The field posts is defined as a HyperlinkedRelatedField.
+        The field profile is defined with the ProfileShortSerializer.
+        Used in the BlogDetailApiView and the BlogListApiView.
+    """
 
     class Meta:
         model = Blog
         fields = 'id', 'title', 'description', 'posts', 'profile',
+        extra_kwargs = {'id': {'read_only': True}}
 
     posts = serializers.HyperlinkedRelatedField(
         many=True,
@@ -141,6 +153,12 @@ class BlogDetailSerializer(serializers.ModelSerializer):
 
 
 class PostCreateSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Post model with the fields id, title, tag,
+        blog, profile and content.
+        The profile field is defined as hidden field.
+        Used in the PostCreateApiView.
+    """
 
     class Meta:
         model = Post
@@ -153,6 +171,10 @@ class PostCreateSerializer(serializers.ModelSerializer):
     profile = serializers.HiddenField(default=CurrentProfileDefault())
 
     def __init__(self, *args, **kwargs):
+        """
+            Overrides the __init__ method to retrieve only the blogs related to the current
+            Profile instance.
+        """
         context = kwargs.get('context')
         profile = context.get('profile')
         super().__init__(*args, **kwargs)
@@ -162,6 +184,11 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Post model with all its fields.
+        The images field is defined with the ImageShortSerializer.
+        Used in the PostUpdateApiView.
+    """
 
     class Meta:
         model = Post
@@ -181,6 +208,10 @@ class PostDetailSerializer(serializers.ModelSerializer):
 
 
 class ImageCreateSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Image model with the fields id, title, image and post.
+        Used in the ImageCreateApiView.
+    """
 
     class Meta:
         model = Image
@@ -190,6 +221,10 @@ class ImageCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {'id': {'read_only': True}}
 
     def __init__(self, *args, **kwargs):
+        """
+            Overrides the __init__ method to retrieve from only the posts
+            related to the current Profile instance.
+        """
         context = kwargs.get('context')
         profile = context.get('profile')
         super().__init__(*args, **kwargs)
@@ -199,6 +234,9 @@ class ImageCreateSerializer(serializers.ModelSerializer):
 
 
 class ImageDetailSerializer(serializers.ModelSerializer):
+    """
+        A serializer for the Image model with all its fields.
+    """
 
     class Meta:
         model = Image

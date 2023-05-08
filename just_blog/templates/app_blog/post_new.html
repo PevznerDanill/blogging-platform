@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load blog_tags %}
 {% block title %}
     {% trans 'New Post' %}
 {% endblock %}
@@ -10,7 +11,8 @@
             <h1 class="title">{% trans 'Create your new post' %}</h1>
             <form class="post-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.as_div|change_class_for_post_new }}
+                <ul class="list-reset new_images_list" id="new-images-list"></ul>
                 <button class="register__btn btn" type="submit">{% trans 'Create' %}</button>
             </form>
             <h2 class="auth-title">
@@ -21,11 +23,42 @@
                 {% if error %}
                     <p style="color:red;">{{ error }}</p>
                 {% endif %}
-                {{ form_1.as_p }}
-                <button class="register__btn btn" type="submit">
+                {{ form_1.as_div|change_class_for_cvs_new }}
+                <span id="new-csv-file"></span>
+                <button class="register__btn btn block" type="submit">
                     {% trans 'Upload' %}
                 </button>
             </form>
         </div>
     </section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function() {
+          // get the input and list elements
+          var imageInput = document.getElementById('id_images');
+          var list = document.getElementById('new-images-list');
+          var input = document.getElementById('csv_blog_id');
+
+          imageInput.addEventListener('change', function() {
+            while (list.firstChild) {
+              list.removeChild(list.firstChild);
+            }
+
+            for (var i = 0; i < imageInput.files.length; i++) {
+              var item = document.createElement('li');
+              item.textContent = imageInput.files[i].name;
+              list.appendChild(item);
+            }
+          });
+          input.addEventListener('change', function() {
+              var span = document.getElementById('new-csv-file');
+              span.textContent = input.files[0].name;
+            });
+        });
+    </script>
+
+
+
 {% endblock %}

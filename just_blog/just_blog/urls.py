@@ -15,24 +15,46 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
 from django.views.i18n import JavaScriptCatalog
+import debug_toolbar
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API for the JustBlog blogging platform",
+        default_version="v1",
+        description="An API to get the data of the database of the web application "
+                    "and pefrom the same actions available in it.",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="pevzner.daniil@gmail.com"),
+        license=openapi.License(name="")
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('app_auth.urls')),
+    path('users/', include('app_auth.urls')),
     path('main/', include('app_main.urls')),
     path('', lambda req: redirect('main/')),
     path('i18n', include('django.conf.urls.i18n')),
     path('blogs/', include('app_blog.urls')),
     path('posts-feed/', include('app_rss.urls')),
-    path('api-auth/', include('rest_framework.urls')),
     path('api/', include('app_api.urls')),
+    path('api/auth/', include('djoser.urls')),
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api-auth/', include('rest_framework.urls')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('__debug__/', include(debug_toolbar.urls)),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema_swagger_ui')
 ]
 
 

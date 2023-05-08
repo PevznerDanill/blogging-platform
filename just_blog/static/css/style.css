@@ -75,9 +75,15 @@ body {
   max-width: 330px;
   padding: 15px;
   margin: auto;
-
 }
 
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
 
 .transition-link {
   transition: color 0.3s ease-in-out, border-color .3s ease-in-out;
@@ -303,13 +309,24 @@ body {
   padding: 8px 15px;
 }
 
-.image_input {
-  padding-top: 18px;
+.avatar_input {
+  display: none;
+}
+
+.form-auth-para {
+
 }
 
 .avatar-input-label {
-  /*padding: 10px 0;*/
+
 }
+
+.cur-avatar-box {
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 
 .update-form input[type=file],
 .post-form input[type=file] {
@@ -322,13 +339,14 @@ body {
   padding: 10px 15px;
 }
 
-#id_images {
-  visibility: hidden;
+#id_images,
+#csv_blog_id {
+  display: none;
 }
 
 .profile_page_avatar {
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 300px;
   object-fit: cover;
 }
 
@@ -356,7 +374,7 @@ body {
 
 .blogs__list {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
   row-gap: 3rem;
   column-gap: 1rem;
   margin-bottom: 2rem;
@@ -365,8 +383,11 @@ body {
 .blog__card {
   flex-direction: column;
   align-items: center;
+  width: 350px;
+  height: 100%;
   padding: 1em;
   transition: box-shadow .3s ease-in-out;
+
 }
 
 .blog__card:hover {
@@ -382,6 +403,7 @@ body {
     width:  100px;
     height: 100px;
     object-fit: cover;
+    margin-bottom: 12px;
 }
 
 
@@ -412,6 +434,10 @@ body {
   margin-bottom: 10px;
 }
 
+.new-avatar-input-box {
+  margin-bottom: 18px;
+}
+
 .blog-form p:last-child,
 .post-form p:last-child {
   margin-bottom: 0;
@@ -428,10 +454,16 @@ body {
   margin-bottom: 0;
 }
 
-.post_images_label {
-  width: 155px;
-  height: 40px;
+.avatar-box {
+  display: block;
+}
 
+.post_images_label {
+  text-align: center;
+}
+
+.new_images_list {
+  padding: 10px;
 }
 
 .blog-title {
@@ -506,7 +538,6 @@ body {
 
 .post__card__tag {
   font-size: 18px;
-  margin-bottom: 12px;
 }
 
 .post-title {
@@ -525,7 +556,7 @@ body {
 }
 
 .check-for-delete-input {
-  visibility: hidden;
+  display: none;
 }
 
 .post-title-input {
@@ -569,6 +600,12 @@ body {
   flex-wrap: wrap;
   gap: 30px;
   margin-bottom: 32px;
+}
+
+.post-detail-image {
+  width: 550px;
+  height: 550px;
+  object-fit: cover;
 }
 
 /* latest posts */
@@ -623,17 +660,22 @@ body {
   font-size: 18px;
 }
 
+.post-list-box {
+  margin-bottom: 10px;
+}
+
 /* slideshow carousel */
 
 .images-box {
   float: left;
-  width: 50%;
+  width: 550px;
+  height: 550px;
   margin-bottom: 12px;
   margin-right: 12px;
 }
 
 .slideshow-container {
-  max-width: 1000px;
+  width: 100%;
   position: relative;
   margin: auto;
 }
@@ -706,4 +748,13 @@ body {
 @keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
+}
+
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }

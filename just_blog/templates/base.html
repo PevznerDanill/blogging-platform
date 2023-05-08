@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 {% block scripts %}
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
 
     <meta charset="UTF-8">
@@ -45,10 +45,14 @@
                                     </li>
                                 {% endif %}
                                 <li class="header__item">
-                                    <a class="transition-link a-reset" href="#">{% trans 'About' %}</a>
+                                    <a class="transition-link a-reset" href="{% url 'app_main:about' %}">
+                                        {% trans 'About' %}
+                                    </a>
                                 </li>
                                 <li class="header__item">
-                                    <a class="transition-link a-reset" href="#">{% trans 'Contacts' %}</a>
+                                    <a class="transition-link a-reset" href="{% url 'app_main:contacts' %}">
+                                        {% trans 'Contacts' %}
+                                    </a>
                                 </li>
                             </ul>
                         </nav>

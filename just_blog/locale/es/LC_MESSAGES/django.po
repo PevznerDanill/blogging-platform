@@ -2,12 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-05 15:04+0000\n"
+"POT-Creation-Date: 2023-05-05 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,42 +14,39 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: app_auth/forms.py:21 app_auth/forms.py:77
 msgid "Password"
-msgstr "Пароль"
+msgstr "Contraseña"
 
 #: app_auth/forms.py:27
 msgid "Password confirmation"
-msgstr "Подтвердите пароль"
+msgstr "Confirmación de contraseña"
 
 #: app_auth/forms.py:30
 msgid "Enter the same password as before, for verification."
-msgstr "Введите тот же пароль, что и в предыдущем поле."
+msgstr "Para la verificación, introduzca la misma contraseña una vez más"
 
 #: app_auth/forms.py:36
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-msgstr "Обязательное поле. Максимум 150 символов. Буквы, цифры, @/./+/-/_."
+msgstr "Requerido. 150 caracteres o menos. Solo letras, dígitos y @/./+/-/_."
 
 #: app_auth/forms.py:40
 msgid "A user with that username already exists."
-msgstr "Пользователь с таким именем уже существует."
+msgstr "Un usuario con este nombre ya existe"
 
 #: app_auth/forms.py:42 app_auth/forms.py:74
 msgid "User name"
-msgstr "Имя пользователя"
+msgstr "Nombre de usuario"
 
 #: app_auth/forms.py:54 templates/app_auth/profile_public_detail.html:20
 msgid "First name"
-msgstr "Имя"
+msgstr "Nombre"
 
 #: app_auth/forms.py:60 templates/app_auth/profile_detail.html:28
 #: templates/app_auth/profile_public_detail.html:25
 msgid "Last name"
-msgstr "Фамилия"
+msgstr "Apellido"
 
 #: app_auth/forms.py:65 templates/app_auth/profile_public_detail.html:30
 msgid "Email"
@@ -58,152 +54,152 @@ msgstr ""
 
 #: app_auth/forms.py:92
 msgid "Bio"
-msgstr "Био"
+msgstr ""
 
 #: app_auth/forms.py:98 templates/app_auth/profile_detail.html:38
 #: templates/app_auth/profile_public_detail.html:35
 msgid "Age"
-msgstr "Возраст"
+msgstr "Edad"
 
 #: app_auth/forms.py:102
 msgid "Upload your avatar"
-msgstr "Загрузите ваш аватар"
+msgstr "Carga tu avatar"
 
 #: app_auth/models.py:9
 msgid "user"
-msgstr "пользователь"
+msgstr "usuario"
 
 #: app_auth/models.py:10
 msgid "date of birth"
-msgstr "дата рождения"
+msgstr "fecha de nacimiento"
 
 #: app_auth/models.py:11
 msgid "bio"
-msgstr "био"
+msgstr ""
 
 #: app_auth/models.py:12
 msgid "your photo"
-msgstr "ваше фото"
+msgstr "tu foto"
 
 #: app_auth/models.py:18
 msgid "profiles"
-msgstr "профили"
+msgstr "perfiles"
 
 #: app_auth/models.py:19 app_blog/models.py:16 app_blog/models.py:30
 msgid "profile"
-msgstr "профиль"
+msgstr "perfil"
 
 #: app_blog/forms.py:15 app_blog/forms.py:33
 msgid "Title"
-msgstr "Заголовок"
+msgstr "Título"
 
 #: app_blog/forms.py:20
 msgid "Description"
-msgstr "Описание"
+msgstr "Description"
 
 #: app_blog/forms.py:38
 msgid "Tag"
-msgstr "Тэг"
+msgstr ""
 
 #: app_blog/forms.py:44
 msgid "Upload images"
-msgstr "Загрузите изображения"
+msgstr "Carga imágenes"
 
 #: app_blog/forms.py:50
 msgid "Post content"
-msgstr "Содержание поста"
+msgstr "Contenido del post"
 
 #: app_blog/forms.py:56
 msgid "Csv file"
-msgstr "Файл CSV"
+msgstr "Archivo CSV"
 
 #: app_blog/models.py:10 templates/app_blog/user_blog_list.html:11
 #: templates/base.html:43
 msgid "blogs"
-msgstr "блоги"
+msgstr ""
 
 #: app_blog/models.py:11 app_blog/models.py:29
 msgid "blog"
-msgstr "блог"
+msgstr ""
 
 #: app_blog/models.py:13 app_blog/models.py:23 app_blog/models.py:63
 msgid "title"
-msgstr "заголовок"
+msgstr "título"
 
 #: app_blog/models.py:14
 msgid "description"
-msgstr "описание"
+msgstr "descripción"
 
 #: app_blog/models.py:15 app_blog/models.py:26
 msgid "created at"
-msgstr "дата создания"
+msgstr "fecha de la creación"
 
 #: app_blog/models.py:24
 msgid "tag"
-msgstr "тэг"
+msgstr ""
 
 #: app_blog/models.py:25
 msgid "content"
-msgstr "содержание"
+msgstr "contenido"
 
 #: app_blog/models.py:27
 msgid "is published"
-msgstr "опубликован"
+msgstr "publicado"
 
 #: app_blog/models.py:28
 msgid "published at"
-msgstr "дата публикации"
+msgstr "fecha de la publicación"
 
 #: app_blog/models.py:64 app_blog/models.py:68
 msgid "image"
-msgstr "изображение"
+msgstr "imagen"
 
 #: app_blog/models.py:65
 msgid "post"
-msgstr "пост"
+msgstr "post"
 
 #: app_blog/models.py:69
 msgid "images"
-msgstr "изображения"
+msgstr "imágenes"
 
 #: app_blog/views.py:159
 msgid "The file you have just tried to upload is invalid"
-msgstr "Некорректный формат файла"
+msgstr "El formato del archivo que tratabas de cargar es inválido"
 
 #: templates/app_auth/get-started.html:4 templates/base.html:60
 msgid "Get started"
-msgstr "Регистрация"
+msgstr "Regístrate"
 
 #: templates/app_auth/get-started.html:10
 msgid "Create your profile"
-msgstr "Создайте свой профиль"
+msgstr "Crea tu perfil"
 
 #: templates/app_auth/get-started.html:14 templates/app_blog/blog_new.html:15
 #: templates/app_blog/post_new.html:16
 msgid "Create"
-msgstr "Создать"
+msgstr "Crear"
 
 #: templates/app_auth/login.html:5 templates/app_auth/login.html:11
 #: templates/app_auth/login.html:15 templates/base.html:59
 msgid "Login"
-msgstr "Войти"
+msgstr "Iniciar sesión"
 
 #: templates/app_auth/profile_detail.html:4
 #: templates/app_auth/profile_public_detail.html:4
 msgid "Profile"
-msgstr "Профиль"
+msgstr "Perfil"
 
 #: templates/app_auth/profile_detail.html:10
 msgid "Your profile"
-msgstr "Ваш профиль"
+msgstr "Tu perfil"
 
 #: templates/app_auth/profile_detail.html:19
 msgid "Username"
-msgstr "Имя пользователя"
+msgstr "Nombre de usuario"
 
 #: templates/app_auth/profile_detail.html:23
 msgid "Firstname"
-msgstr "Имя"
+msgstr "Nombre"
 
 #: templates/app_auth/profile_detail.html:33
 msgid "Email address"
@@ -211,210 +207,205 @@ msgstr "Email"
 
 #: templates/app_auth/profile_detail.html:49
 msgid "Update profile"
-msgstr "Обновить профиль"
+msgstr "Actualizar el perfil"
 
 #: templates/app_auth/profile_public_detail.html:46
 msgid "To user's blogs"
-msgstr "К блогам пользователя"
+msgstr "A los blogs del usuario"
 
 #: templates/app_auth/profile_update.html:5
 msgid "Profile Update"
-msgstr "Обновление профиля"
+msgstr "Actualización del perfil"
 
 #: templates/app_auth/profile_update.html:13
 msgid "Update your profile"
-msgstr "Обновите ваш профиль"
+msgstr "Actualiza tu perfil"
 
 #: templates/app_auth/profile_update.html:31
 msgid "Current avatar:"
-msgstr "Текущий аватар"
+msgstr "Avatar actual"
 
 #: templates/app_auth/profile_update.html:35
 msgid "Upload your new avatar"
-msgstr "Загрузите новый аватар"
+msgstr "Carga tu nuevo avatar"
 
 #: templates/app_auth/profile_update.html:47
 msgid "Update"
-msgstr "Обновить"
+msgstr "Actualizar"
 
 #: templates/app_blog/blog_delete.html:5
 msgid "Delete blog"
-msgstr "Удаление блога"
+msgstr "Borrar el blog"
 
 #: templates/app_blog/blog_delete.html:11
 msgid "Are you sure you want to delete the blog"
-msgstr "Вы уверены, что хотите удалить блог"
+msgstr "¿Estás seguro de que quieres borrar el blog"
 
 #: templates/app_blog/blog_delete.html:15
 #: templates/app_blog/post_delete.html:15
 msgid "Delete"
-msgstr "Удалить"
+msgstr "Borrar"
 
 #: templates/app_blog/blog_delete.html:18
 #: templates/app_blog/post_delete.html:17
 msgid "No"
-msgstr "Нет"
+msgstr ""
 
 #: templates/app_blog/blog_detail.html:6
 msgid "Blog"
-msgstr "Блог"
+msgstr ""
 
 #: templates/app_blog/blog_detail.html:39
 msgid "No posts yet. Add your first one"
-msgstr "Пока нет постов. Создайте свой первый пост"
+msgstr "Todavía no tienes ni un post. Añade el primero"
 
 #: templates/app_blog/blog_detail.html:43
 msgid "Add a post"
-msgstr "Добавить пост"
+msgstr "Añadir un post"
 
 #: templates/app_blog/blog_detail.html:46 templates/app_blog/blog_edit.html:11
 msgid "Edit the blog"
-msgstr "Редактировать блог"
+msgstr "Editar el blog"
 
 #: templates/app_blog/blog_detail.html:47
 msgid "Delete the blog"
-msgstr "Удалить блог"
+msgstr "Borrar el blog"
 
 #: templates/app_blog/blog_edit.html:5
 msgid "Edit blog#"
-msgstr "Редактирование блога#"
+msgstr "Editar el blog#"
 
 #: templates/app_blog/blog_edit.html:15 templates/app_blog/post_detail.html:53
 #: templates/app_blog/post_edit.html:45
 msgid "Edit"
-msgstr "Редактировать"
+msgstr "Editar"
 
 #: templates/app_blog/blog_new.html:5
 msgid "New blog"
-msgstr "Новый блог"
+msgstr "Nuevo blog"
 
 #: templates/app_blog/blog_new.html:11
 msgid "Create your new blog"
-msgstr "Начните ваш новый блог"
+msgstr "Crea tu nuevo blog"
 
 #: templates/app_blog/latest_posts.html:6
 msgid "Posts"
-msgstr "Посты"
+msgstr ""
 
 #: templates/app_blog/latest_posts.html:32
 msgid "Published"
-msgstr "Опубликован"
+msgstr "Publicado"
 
 #: templates/app_blog/latest_posts.html:40
 msgid "Keep reading"
-msgstr "Читать дальше"
+msgstr "Seguir leyendo"
 
 #: templates/app_blog/latest_posts.html:47
 msgid "No blogs yet"
-msgstr "Пока нет блогов"
+msgstr "No hay blogs"
 
 #: templates/app_blog/post_delete.html:5
 msgid "Delete post"
-msgstr "Удалить пост"
+msgstr "Borrar el post"
 
 #: templates/app_blog/post_delete.html:11
 msgid "Are you sure you want to delete the post"
-msgstr "Вы уверены, что хотите удалить пост?"
+msgstr "¿Estás seguro de que quieres borrar el post"
 
 #: templates/app_blog/post_detail.html:4
 msgid "Post"
-msgstr "Пост"
+msgstr ""
 
 #: templates/app_blog/post_detail.html:15 templates/app_main/index.html:25
 msgid "by"
-msgstr "-"
+msgstr "por"
 
 #: templates/app_blog/post_detail.html:21
 msgid "Archive"
-msgstr "Архивировать"
+msgstr "Archivar"
 
 #: templates/app_blog/post_detail.html:21
 msgid "Publish"
-msgstr "Опубликовать"
+msgstr "Publicar"
 
 #: templates/app_blog/post_detail.html:54
 msgid "Delete the post"
-msgstr "Удалить пост"
+msgstr "Borrar el post"
 
 #: templates/app_blog/post_detail.html:56
 msgid "Back to the blog"
-msgstr "Назад к блогу"
+msgstr "Al blog"
 
 #: templates/app_blog/post_edit.html:4
 msgid "Edit Post"
-msgstr "Редактирование поста"
+msgstr "Editar el post"
 
 #: templates/app_blog/post_edit.html:10
 msgid "Edit your post"
-msgstr "Редактируйте свой пост"
+msgstr "Edita tu post"
 
 #: templates/app_blog/post_edit.html:35
 msgid "Delete already uploaded images"
-msgstr "Удалите уже загруженные изображения"
+msgstr "Borrar las imágenes ya cargadas"
 
 #: templates/app_blog/post_new.html:5
 msgid "New Post"
-msgstr "Новый пост"
+msgstr "Nuevo post"
 
 #: templates/app_blog/post_new.html:11
 msgid "Create your new post"
-msgstr "Создайте ваш новый пост"
+msgstr "Crea tu nuevo post"
 
 #: templates/app_blog/post_new.html:19
 msgid ""
 "Or upload your cvs-file with post. The file should contain three columns: "
 "title, tag and the content of the post"
-msgstr ""
-"Или загрузите cvs файл с постом. Файл должен содержать три столбца: "
-"заголовок, тэг и содержание поста"
+msgstr "O carga un archivo CVS con el post. El archivo debe contener tres columnas: título, tag y contenido"
 
 #: templates/app_blog/post_new.html:29
 msgid "Upload"
-msgstr "Загрузить"
+msgstr "Cargar"
 
 #: templates/app_blog/user_blog_list.html:31
 msgid "Created at"
-msgstr "Время создания"
+msgstr "Fecha de la creación"
 
 #: templates/app_blog/user_blog_list.html:38
 msgid "You have not started any blog yet"
-msgstr "Вы пока не начинали блогов"
+msgstr "No tienes ningún blog comenzado"
 
 #: templates/app_blog/user_blog_list.html:42
 msgid "Start a new blog"
-msgstr "Начните новый блог"
+msgstr "Comenzar un blog"
 
 #: templates/app_main/index.html:5
 msgid "Main page"
-msgstr "Главная страница"
+msgstr "Página principal"
 
 #: templates/app_main/index.html:13
 msgid "Explore blogs of others and post your own"
-msgstr "Читайте блоги. Делитесь блогами"
+msgstr "Explora los blogs de otros y publica los tuyos"
 
 #: templates/app_main/index.html:19
 msgid "Subscribe to"
-msgstr "Подписаться на"
+msgstr "Suscríbete a"
 
 #: templates/base.html:31
 msgid "Latest posts"
-msgstr "Свежие посты"
+msgstr "Lo último"
 
 #: templates/base.html:38
 msgid "My profile"
-msgstr "Мой профиль"
+msgstr "Mi perfil"
 
 #: templates/base.html:48
 msgid "About"
-msgstr "О проекте"
+msgstr "Sobre nosotros"
 
 #: templates/base.html:51
 msgid "Contacts"
-msgstr "Контакты"
+msgstr "Contactos"
 
 #: templates/base.html:57
 msgid "Logout"
-msgstr "Выйти"
-
-#~ msgid "Avatar"
-#~ msgstr "Аватар"
+msgstr "Salir"

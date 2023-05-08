@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'About' %}
+{% endblock %}
+
+{% block body %}
+    <section class="section-offset">
+        <div class="container">
+            <h1 class="title auth-title">
+                {% trans 'About the project' %}
+            </h1>
+            <div class="post-content-container">
+                <p>
+                    {% trans 'This is a blogging project that allows see publicated posts of the authorized users' %}
+                </p>
+                <p>
+                    {% trans 'The avaliable languages are English, Russian and Spanish' %}
+                </p>
+                <p>
+                    {% trans 'If you need the API version of this website, please see the step by step instruction givven in the README.MD file ' %}
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

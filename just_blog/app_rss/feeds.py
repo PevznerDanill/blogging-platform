@@ -2,21 +2,29 @@ from django.contrib.syndication.views import Feed
 from django.db.models import QuerySet
 from django.shortcuts import reverse
 from app_blog.models import Post
+from django.db.models import F
+import re
 
 
 class LatestPostsFeed(Feed):
+    """
+    A feed that shows the last five published posts.
+    """
     title = 'Posts'
     link = '/siteposts/'
     description = 'The latest published posts'
 
     def items(self) -> QuerySet:
-        return Post.objects.select_related('profile').filter(is_published=True).order_by('-published_at')[:5]
+        """
+        Retrieves five latest published Post instances.
+        """
+        return Post.objects.select_related('profile').annotate(profile_username=F('profile__user__username')).filter(is_published=True).order_by('-published_at')[:5]
 
     def item_title(self, item: Post) -> str:
-        return item.title
+        return re.sub(r'\.\B', '', item.title)
 
     def item_description(self, item: Post) -> str:
-        return item.title
+        return item.short_content()
 
     def item_link(self, item: Post) -> str:
         return reverse('app_blog:post_detail', kwargs={'pk': item.pk})

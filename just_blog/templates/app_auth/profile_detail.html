@@ -11,37 +11,25 @@
 
             <div class="profile-content">
                 <p class="profile-content-para">
-                    {% if profile.avatar %}
-                        <img class="profile_page_avatar" src="{{ profile.avatar.url }}" alt="">
-                    {% endif %}
+                    {% trans 'Avatar' %}: {% if profile.avatar %}<img class="profile_page_avatar" src="{{ profile.avatar.url }}" alt="">{% endif %}
                 </p>
                 <p class="profile-content-para">
                     {% trans 'Username' %}: {{ profile.user.username }}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.first_name %}
-                        {% trans 'Firstname' %}: {{ profile.user.first_name }}
-                    {% endif %}
+                    {% trans 'Firstname' %}: {{ profile.user.first_name }}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.last_name %}
-                        {% trans 'Last name' %}: {{ profile.user.last_name }}
-                    {% endif %}
+                    {% trans 'Last name' %}: {{ profile.user.last_name }}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.user.email %}
-                        {% trans 'Email address' %}: {{ profile.user.email }}
-                    {% endif %}
+                    {% trans 'Email address' %}: {{ profile.user.email }}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.age %}
-                        {% trans 'Age' %}: {{ profile.get_age }}
-                    {% endif %}
+                    {% trans 'Age' %}: {{ profile.get_age }}
                 </p>
                 <p class="profile-content-para">
-                    {% if profile.bio %}
-                        <p>{{ profile.bio }}</p>
-                    {% endif %}
+                    <p>{{ profile.bio }}</p>
                 </p>
             </div>
             <p class="profile-update-btn">

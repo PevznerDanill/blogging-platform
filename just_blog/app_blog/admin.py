@@ -1,6 +1,10 @@
 from django.contrib import admin
 from .models import Blog, Post, Image
 
+"""
+Register the models Blog, Post and Image in the admin panel.
+"""
+
 
 class PostInline(admin.TabularInline):
     model = Post

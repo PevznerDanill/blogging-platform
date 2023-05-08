@@ -19,22 +19,24 @@
                                 {% endfor %}
                             </ul>
                         {% endif %}
-                        {% if field.label == 'Images' or field.label == 'Изображения' %}
-                             <label class="post_images_label btn register__btn">{{ field.label }}{{ field }}</label>
-{#                            <div id="display_file"><div>#}
+                        {% if field.label == 'Upload images' or field.label == 'Загрузите изображения' or field.label == 'Carga imágenes' %}
+                            <div class="upload-images-form">
+                                <label id="images_label" class="post_images_label btn register__btn">{{ field.label }}{{ field }}</label>
+                                <ul class="list-reset new_images_list" id="file-list">
+                                </ul>
+                            </div>
                         {% else %}
                             <label>{{ field.label }}:</label>{{ field }}
                         {% endif %}
                     </div>
                 {% endfor %}
 
-{#                {{ form.as_p }}#}
                 {% if images %}
                     <p>{% trans 'Delete already uploaded images' %}:</p>
                     {% for img in images %}
                         <p>
                             <label for="{{ img.title }}">
-                                <input class="check-for-delete-input" type="checkbox" id="{{ img.title }}" name="{{ img.title }}">
+                                <input class="check-for-delete-input" type="checkbox" id="{{ img.title }}" name="{{ img.pk }}">
                                 <img class="post-edit-img" src="{{ img.image.url }}" alt="" style="display: inline-block; width: 30%;">
                             </label>
                         </p>
@@ -44,4 +46,30 @@
             </form>
         </div>
     </section>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+  // get the input and list elements
+  var input = document.getElementById('id_images');
+  var list = document.getElementById('file-list');
+
+  // add event listener to update list when files are selected
+  input.addEventListener('change', function() {
+    // clear previous list items
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    // add new list items for each selected file
+    for (var i = 0; i < input.files.length; i++) {
+      var item = document.createElement('li');
+      item.textContent = input.files[i].name;
+      list.appendChild(item);
+    }
+  });
+});
+</script>
+
+
 {% endblock %}

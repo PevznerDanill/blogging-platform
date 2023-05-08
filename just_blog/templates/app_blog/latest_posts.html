@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load cache %}
+{% load blog_tags %}
 {% block title %}
     {% trans 'Posts' %}
 {% endblock %}
@@ -8,37 +10,68 @@
     <section class="section-offset">
         <div class="container">
             <h1 class="post-list-title title">. just_BLOGS</h1>
-            {% if posts %}
-                <ul class="post-list-box list-reset">
-                {% for post in posts %}
-                    <li class="post-card">
-                        <div class="post-card-header flex">
-                            <a class="public-avatar-link a-reset" href="{% url 'app_auth:profile_public' pk=post.blog.profile.pk %}">
-                                {% if post.blog.profile.avatar %}
-                                    <img class="public-avatar" src="{{ post.blog.profile.avatar.url }}" alt="">
-                                {% else %}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="avatar-icon" viewBox="0 0 16 16"> <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/> <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/> </svg>
-                                {% endif %}
-                            </a>
-                            <div class="post-header-info">
-                                <p class="post-author">
-                                    <a class="a-reset" href="{% url 'app_auth:profile_public' pk=post.blog.profile.pk %}">
-                                        {% firstof post.blog.profile.user.first_name post.blog.profile.user.username %}
-                                    </a>
-                                </p>
-                                <p class="post-time">{% trans 'Published' %}: {{ post.published_at }}</p>
+
+                {% if posts %}
+                    <ul class="post-list-box list-reset">
+                    {% for post in posts %}
+                        <li class="post-card">
+                            <div class="post-card-header flex">
+                            {% with post|cur_profile:profiles as cur_profile %}
+                                <a class="public-avatar-link a-reset" href="{% url 'app_auth:profile_public' pk=cur_profile.pk %}">
+                                    {% if cur_profile.avatar %}
+                                        <img class="public-avatar" src="{{ cur_profile.avatar.url }}" alt="">
+                                    {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="avatar-icon" viewBox="0 0 16 16"> <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/> <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/> </svg>
+                                    {% endif %}
+                                </a>
+                                <div class="post-header-info">
+                                    <p class="post-author">
+                                        <a class="a-reset" href="{% url 'app_auth:profile_public' pk=cur_profile.pk %}">
+                                            {% firstof cur_profile.user.first_name cur_profile.user %}
+                                        </a>
+                                    </p>
+                                    <p class="post-time">{% trans 'Published' %}: {{ post.published_at }}</p>
+                                </div>
+                            {% endwith %}
                             </div>
+                            <div class="post-content">
+                                <p class="post-content-item content-item-title">{{ post.title }}</p>
+                                <p class="post-content-item">{{ post.short_content }}</p>
+                                <a class="a-reset content-link transition-link" href="{% url 'app_blog:post_detail' pk=post.pk %}">
+                                    ({% trans 'Keep reading' %})
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    <div class="pagination object-center">
+                    <p style="text-align: center; font-size: 20px; margin-bottom: 10px;">{{ page_obj.number }}</p>
+                        <div class="pagination-numbers flex" style="justify-content: center; gap: 10px;">
+
+                            {% for number in paginator.page_range %}
+                                <span class="step-links"{% if page_obj.number == number %}style="display: none;"{% endif %}>
+                                    <a class="a-reset transition-link" href="?page={{ number }}">{{ number }}</a>
+                                </span>
+                            {% endfor %}
                         </div>
-                        <div class="post-content">
-                            <p class="post-content-item content-item-title">{{ post.title }}</p>
-                            <p class="post-content-item">{{ post.short_content }}</p>
-                            <a class="a-reset content-link transition-link" href="{% url 'app_blog:post_detail' pk=post.pk %}">
-                                ({% trans 'Keep reading' %})
-                            </a>
-                        </div>
-                    </li>
-                {% endfor %}
-                </ul>
+
+
+{#                        <span class="step-links">#}
+{#                            {% if page_obj.has_previous %}#}
+{#                                <a class="a-reset transition-link" href="?page=1">1</a>#}
+{#                                <a class="a-reset transition-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>#}
+{#                            {% endif %}#}
+{##}
+{#                            <span class="current">#}
+{#                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#                            </span>#}
+{##}
+{#                            {% if page_obj.has_next %}#}
+{#                                <a class="a-reset transition-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>#}
+{#                                <a class="a-reset transition-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>#}
+{#                            {% endif %}#}
+{#                        </span>#}
+                    </div>
             {% else %}
                 {% trans 'No blogs yet' %}
             {% endif %}

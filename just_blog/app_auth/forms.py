@@ -5,9 +5,24 @@ from django import forms
 from .models import Profile
 from datetime import date
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import ClearableFileInput
+
+
+class MyInput(ClearableFileInput):
+    """
+    Overrides the is_initial method of the ClearableFileInput widget
+    """
+    def is_initial(self, value):
+        """
+        Always returns False so the widget won't display the messages saved for non-initial value.
+        """
+        return False
 
 
 class MyUserCreationForm(UserCreationForm):
+    """
+    Overrides the UserCreation form, adding classes to the widgets.
+    """
     password1 = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -35,6 +50,9 @@ class MyUserCreationForm(UserCreationForm):
 
 
 class MyUserChangeForm(UserChangeForm):
+    """
+    Overrides the UserChangeForm, removing password field and adding classes to other widgets.
+    """
     class Meta:
         model = User
         fields = 'first_name', 'last_name', 'email',
@@ -60,6 +78,9 @@ class MyUserChangeForm(UserChangeForm):
 
 
 class MyLoginForm(AuthenticationForm):
+    """
+    Overrides the AuthenticationForm, adding classes to the widget.
+    """
     username = UsernameField(
         widget=forms.TextInput(attrs={"autofocus": True, 'class': 'input'}),
         label=_('User name')
@@ -72,6 +93,9 @@ class MyLoginForm(AuthenticationForm):
 
 
 class ProfileForm(forms.ModelForm):
+    """
+    A form for the model Profile.
+    """
 
     class Meta:
         model = Profile
@@ -90,7 +114,7 @@ class ProfileForm(forms.ModelForm):
     )
 
     avatar = forms.ImageField(
-        label=_('Avatar'),
+        label=_('Upload your avatar'),
         required=False,
-        widget=forms.ClearableFileInput(attrs={'class': 'image_input'})
+        widget=MyInput(attrs={'class': 'avatar_input'})
     )

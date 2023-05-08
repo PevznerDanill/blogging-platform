@@ -15,17 +15,21 @@
                     <a class="a-reset" href="{% url 'app_blog:blog_detail' pk=blog.pk %}">
                         <li class="blog__card flex">
                             <p class="blog__card__item blog__card__title">{{ blog.title }}</p>
-                            {% if blog.posts.all %}
-                                {% with blog.posts.all|random as random_post %}
-                                    {% if random_post.images.all %}
-                                        {% with random_post.images.all|random as random_image %}
-                                            <img class="blog__card__image" src="{{ random_image.image.url }}" alt="">
+                            {% with blog.posts.all as blog_posts %}
+                                {% if blog_posts %}
+                                    {% with blog_posts|random as random_post %}
+                                        {% with random_post.images.all as post_images %}
+                                            {% if post_images %}
+                                                {% with post_images|random as random_image %}
+                                                    <img class="blog__card__image" src="{{ random_image.image.url }}" alt="">
+                                                {% endwith %}
+                                            {% endif %}
                                         {% endwith %}
-                                    {% endif %}
-                                {% endwith %}
-                            {% endif %}
+                                    {% endwith %}
+                                {% endif %}
                             <p class="blog__card__item">{{ blog.description }}</p>
                             <p class="blog__card__item">{% trans 'Created at' %}: {{ blog.created_at }}</p>
+                            {% endwith %}
                         </li>
                     </a>
                 {% endfor %}
