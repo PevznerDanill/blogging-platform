@@ -335,6 +335,7 @@ class ImageDetailApiView(RetrieveUpdateDestroyAPIView):
         """
         A put method to update the retrieved Image instance.
         The fields that can be changed are title and image.
+        Requires type multipart.
         """
         return self.update(request, *args, **kwargs)
 
@@ -342,6 +343,7 @@ class ImageDetailApiView(RetrieveUpdateDestroyAPIView):
         """
         A patch method to update the retrieved Image instance.
         The fields that can be changed are title and image.
+        Requires type multipart.
         """
         return self.partial_update(request, *args, **kwargs)
 

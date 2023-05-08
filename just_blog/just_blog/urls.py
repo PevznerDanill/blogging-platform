@@ -25,6 +25,18 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from django.contrib.sitemaps.views import sitemap
+from app_blog.sitemap import PostSiteMap
+from app_main.sitemap import StaticSiteMap
+
+sitemap_static = {
+    'static': StaticSiteMap,
+}
+
+sitemap_posts = {
+    'posts': PostSiteMap,
+}
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -53,8 +65,17 @@ urlpatterns = [
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api-auth/', include('rest_framework.urls')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path('__debug__/', include(debug_toolbar.urls)),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema_swagger_ui')
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema_swagger_ui'),
+    path('sitemap-static.xml/',
+         sitemap,
+         {'sitemaps': sitemap_static},
+         name='django.contrib.sitemaps.views.sitemap'
+         ),
+    path('sitemap-posts.xml/',
+         sitemap,
+         {'sitemaps': sitemap_posts},
+         name='django.contrib.sitemaps.views.sitemap'
+         ),
 ]
 
 
@@ -66,3 +87,7 @@ if settings.DEBUG:
     urlpatterns.extend(
         static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     )
+
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls))
+    ]

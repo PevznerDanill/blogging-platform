@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'debug_toolbar',
     'app_auth.apps.AppAuthConfig',
     'app_main.apps.AppMainConfig',
@@ -177,3 +179,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+SITE_ID = 1

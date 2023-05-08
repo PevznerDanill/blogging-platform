@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-05 15:04+0000\n"
+"POT-Creation-Date: 2023-05-08 07:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,158 +19,158 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: app_auth/forms.py:21 app_auth/forms.py:77
+#: app_auth/forms.py:27 app_auth/forms.py:89
 msgid "Password"
 msgstr "Пароль"
 
-#: app_auth/forms.py:27
+#: app_auth/forms.py:33
 msgid "Password confirmation"
 msgstr "Подтвердите пароль"
 
-#: app_auth/forms.py:30
+#: app_auth/forms.py:36
 msgid "Enter the same password as before, for verification."
 msgstr "Введите тот же пароль, что и в предыдущем поле."
 
-#: app_auth/forms.py:36
+#: app_auth/forms.py:42
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr "Обязательное поле. Максимум 150 символов. Буквы, цифры, @/./+/-/_."
 
-#: app_auth/forms.py:40
+#: app_auth/forms.py:46
 msgid "A user with that username already exists."
 msgstr "Пользователь с таким именем уже существует."
 
-#: app_auth/forms.py:42 app_auth/forms.py:74
+#: app_auth/forms.py:48 app_auth/forms.py:86
 msgid "User name"
 msgstr "Имя пользователя"
 
-#: app_auth/forms.py:54 templates/app_auth/profile_public_detail.html:20
+#: app_auth/forms.py:63 templates/app_auth/profile_public_detail.html:20
 msgid "First name"
 msgstr "Имя"
 
-#: app_auth/forms.py:60 templates/app_auth/profile_detail.html:28
+#: app_auth/forms.py:69 templates/app_auth/profile_detail.html:23
 #: templates/app_auth/profile_public_detail.html:25
 msgid "Last name"
 msgstr "Фамилия"
 
-#: app_auth/forms.py:65 templates/app_auth/profile_public_detail.html:30
+#: app_auth/forms.py:74 templates/app_auth/profile_public_detail.html:30
 msgid "Email"
 msgstr ""
 
-#: app_auth/forms.py:92
+#: app_auth/forms.py:107
 msgid "Bio"
 msgstr "Био"
 
-#: app_auth/forms.py:98 templates/app_auth/profile_detail.html:38
+#: app_auth/forms.py:113 templates/app_auth/profile_detail.html:29
 #: templates/app_auth/profile_public_detail.html:35
 msgid "Age"
 msgstr "Возраст"
 
-#: app_auth/forms.py:102
+#: app_auth/forms.py:117
 msgid "Upload your avatar"
 msgstr "Загрузите ваш аватар"
 
-#: app_auth/models.py:9
+#: app_auth/models.py:12
 msgid "user"
 msgstr "пользователь"
 
-#: app_auth/models.py:10
+#: app_auth/models.py:13
 msgid "date of birth"
 msgstr "дата рождения"
 
-#: app_auth/models.py:11
+#: app_auth/models.py:14
 msgid "bio"
 msgstr "био"
 
-#: app_auth/models.py:12
+#: app_auth/models.py:15
 msgid "your photo"
 msgstr "ваше фото"
 
-#: app_auth/models.py:18
+#: app_auth/models.py:24
 msgid "profiles"
 msgstr "профили"
 
-#: app_auth/models.py:19 app_blog/models.py:16 app_blog/models.py:30
+#: app_auth/models.py:25 app_blog/models.py:20 app_blog/models.py:41
 msgid "profile"
 msgstr "профиль"
 
-#: app_blog/forms.py:15 app_blog/forms.py:33
+#: app_blog/forms.py:18 app_blog/forms.py:38
 msgid "Title"
 msgstr "Заголовок"
 
-#: app_blog/forms.py:20
+#: app_blog/forms.py:23
 msgid "Description"
 msgstr "Описание"
 
-#: app_blog/forms.py:38
+#: app_blog/forms.py:43
 msgid "Tag"
 msgstr "Тэг"
 
-#: app_blog/forms.py:44
+#: app_blog/forms.py:49
 msgid "Upload images"
 msgstr "Загрузите изображения"
 
-#: app_blog/forms.py:50
+#: app_blog/forms.py:55
 msgid "Post content"
 msgstr "Содержание поста"
 
-#: app_blog/forms.py:56
+#: app_blog/forms.py:64
 msgid "Csv file"
 msgstr "Файл CSV"
 
-#: app_blog/models.py:10 templates/app_blog/user_blog_list.html:11
+#: app_blog/models.py:14 templates/app_blog/user_blog_list.html:11
 #: templates/base.html:43
 msgid "blogs"
 msgstr "блоги"
 
-#: app_blog/models.py:11 app_blog/models.py:29
+#: app_blog/models.py:15 app_blog/models.py:40
 msgid "blog"
 msgstr "блог"
 
-#: app_blog/models.py:13 app_blog/models.py:23 app_blog/models.py:63
+#: app_blog/models.py:17 app_blog/models.py:34 app_blog/models.py:96
 msgid "title"
 msgstr "заголовок"
 
-#: app_blog/models.py:14
+#: app_blog/models.py:18
 msgid "description"
 msgstr "описание"
 
-#: app_blog/models.py:15 app_blog/models.py:26
+#: app_blog/models.py:19 app_blog/models.py:37
 msgid "created at"
 msgstr "дата создания"
 
-#: app_blog/models.py:24
+#: app_blog/models.py:35
 msgid "tag"
 msgstr "тэг"
 
-#: app_blog/models.py:25
+#: app_blog/models.py:36
 msgid "content"
 msgstr "содержание"
 
-#: app_blog/models.py:27
+#: app_blog/models.py:38
 msgid "is published"
 msgstr "опубликован"
 
-#: app_blog/models.py:28
+#: app_blog/models.py:39
 msgid "published at"
 msgstr "дата публикации"
 
-#: app_blog/models.py:64 app_blog/models.py:68
+#: app_blog/models.py:97 app_blog/models.py:101
 msgid "image"
 msgstr "изображение"
 
-#: app_blog/models.py:65
+#: app_blog/models.py:98
 msgid "post"
 msgstr "пост"
 
-#: app_blog/models.py:69
+#: app_blog/models.py:102
 msgid "images"
 msgstr "изображения"
 
-#: app_blog/views.py:159
+#: app_blog/views.py:311
 msgid "The file you have just tried to upload is invalid"
 msgstr "Некорректный формат файла"
 
-#: templates/app_auth/get-started.html:4 templates/base.html:60
+#: templates/app_auth/get-started.html:4 templates/base.html:64
 msgid "Get started"
 msgstr "Регистрация"
 
@@ -184,7 +184,7 @@ msgid "Create"
 msgstr "Создать"
 
 #: templates/app_auth/login.html:5 templates/app_auth/login.html:11
-#: templates/app_auth/login.html:15 templates/base.html:59
+#: templates/app_auth/login.html:15 templates/base.html:63
 msgid "Login"
 msgstr "Войти"
 
@@ -197,19 +197,23 @@ msgstr "Профиль"
 msgid "Your profile"
 msgstr "Ваш профиль"
 
-#: templates/app_auth/profile_detail.html:19
+#: templates/app_auth/profile_detail.html:14
+msgid "Avatar"
+msgstr "Аватар"
+
+#: templates/app_auth/profile_detail.html:17
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: templates/app_auth/profile_detail.html:23
+#: templates/app_auth/profile_detail.html:20
 msgid "Firstname"
 msgstr "Имя"
 
-#: templates/app_auth/profile_detail.html:33
+#: templates/app_auth/profile_detail.html:26
 msgid "Email address"
 msgstr "Email"
 
-#: templates/app_auth/profile_detail.html:49
+#: templates/app_auth/profile_detail.html:37
 msgid "Update profile"
 msgstr "Обновить профиль"
 
@@ -225,15 +229,15 @@ msgstr "Обновление профиля"
 msgid "Update your profile"
 msgstr "Обновите ваш профиль"
 
-#: templates/app_auth/profile_update.html:31
+#: templates/app_auth/profile_update.html:30
 msgid "Current avatar:"
 msgstr "Текущий аватар"
 
-#: templates/app_auth/profile_update.html:35
+#: templates/app_auth/profile_update.html:34
 msgid "Upload your new avatar"
 msgstr "Загрузите новый аватар"
 
-#: templates/app_auth/profile_update.html:47
+#: templates/app_auth/profile_update.html:46
 msgid "Update"
 msgstr "Обновить"
 
@@ -296,15 +300,15 @@ msgstr "Начните ваш новый блог"
 msgid "Posts"
 msgstr "Посты"
 
-#: templates/app_blog/latest_posts.html:32
+#: templates/app_blog/latest_posts.html:33
 msgid "Published"
 msgstr "Опубликован"
 
-#: templates/app_blog/latest_posts.html:40
+#: templates/app_blog/latest_posts.html:41
 msgid "Keep reading"
 msgstr "Читать дальше"
 
-#: templates/app_blog/latest_posts.html:47
+#: templates/app_blog/latest_posts.html:59
 msgid "No blogs yet"
 msgstr "Пока нет блогов"
 
@@ -384,6 +388,35 @@ msgstr "Вы пока не начинали блогов"
 msgid "Start a new blog"
 msgstr "Начните новый блог"
 
+#: templates/app_main/about.html:5 templates/base.html:49
+msgid "About"
+msgstr "О проекте"
+
+#: templates/app_main/about.html:12
+msgid "About the project"
+msgstr "О проекте"
+
+#: templates/app_main/about.html:16
+msgid ""
+"This is a blogging project that allows see publicated posts of the "
+"authorized users"
+msgstr "Это проект для платформы для блогов, которая позволяет читать опубликованные авторизованными пользователями посты"
+
+#: templates/app_main/about.html:19
+msgid "The available languages are English, Russian and Spanish"
+msgstr "Приложение доступно на английскойм, русском и испанском языках"
+
+#: templates/app_main/about.html:22
+msgid ""
+"If you need the API version of this website, please see the step by step "
+"instruction givven in the README.MD file "
+msgstr "Если вам необходима API версия, ознакомтесь с README.MD файлом"
+
+#: templates/app_main/contact.html:5 templates/app_main/contact.html:11
+#: templates/base.html:54
+msgid "Contacts"
+msgstr "Контакты"
+
 #: templates/app_main/index.html:5
 msgid "Main page"
 msgstr "Главная страница"
@@ -404,17 +437,6 @@ msgstr "Свежие посты"
 msgid "My profile"
 msgstr "Мой профиль"
 
-#: templates/base.html:48
-msgid "About"
-msgstr "О проекте"
-
-#: templates/base.html:51
-msgid "Contacts"
-msgstr "Контакты"
-
-#: templates/base.html:57
+#: templates/base.html:61
 msgid "Logout"
 msgstr "Выйти"
-
-#~ msgid "Avatar"
-#~ msgstr "Аватар"

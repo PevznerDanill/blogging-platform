@@ -51,17 +51,13 @@
 {% block script %}
 <script>
 $(document).ready(function() {
-  // get the input and list elements
   var input = document.getElementById('id_images');
   var list = document.getElementById('file-list');
 
-  // add event listener to update list when files are selected
   input.addEventListener('change', function() {
-    // clear previous list items
     while (list.firstChild) {
       list.removeChild(list.firstChild);
     }
-    // add new list items for each selected file
     for (var i = 0; i < input.files.length; i++) {
       var item = document.createElement('li');
       item.textContent = input.files[i].name;

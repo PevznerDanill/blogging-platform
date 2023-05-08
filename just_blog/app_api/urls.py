@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     ProfileListApiView,
     ProfileCreateApiView,
@@ -26,6 +26,6 @@ urlpatterns = [
     path('new-image/', ImageCreateApiView.as_view(), name='new_image'),
     path('image/<int:pk>/', ImageDetailApiView.as_view(), name='image_detail'),
     path('posts/', PostListApiView.as_view(), name='post_list'),
-    path('profile/<int:pk>/', ProfileUpdateApiView.as_view(), name='profile_update')
+    path('profile/<int:pk>/', ProfileUpdateApiView.as_view(), name='profile_update'),
 ]
 

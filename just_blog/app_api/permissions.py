@@ -86,6 +86,6 @@ class IsImageOwner(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         if request.user.is_authenticated:
-            cur_profile: Profile = Profile.objects.select.get(user=request.user)
-            return obj.owner == cur_profile
+            cur_profile: Profile = Profile.objects.select_related('user').get(user=request.user)
+            return obj.post.profile == cur_profile
 

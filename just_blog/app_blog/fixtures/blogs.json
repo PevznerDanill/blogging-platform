@@ -1,0 +1,102 @@
+[
+  {
+    "model": "app_blog.blog",
+    "pk": 2,
+    "fields": {
+      "title": "The Great Ideological Lie of Diversity",
+      "description": "My thoughts on the devirsity culture.",
+      "created_at": "2023-04-30T09:26:10.334Z",
+      "profile": 4
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 3,
+    "fields": {
+      "title": "My Instagram posts",
+      "description": "My posts from Instagram",
+      "created_at": "2023-04-30T12:30:54.474Z",
+      "profile": 5
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 4,
+    "fields": {
+      "title": "Спорт и диета",
+      "description": "Делюсь своими знаниями о спорте и диете",
+      "created_at": "2023-04-30T13:42:04.868Z",
+      "profile": 6
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 6,
+    "fields": {
+      "title": "Test blog",
+      "description": "This is a test api blog",
+      "created_at": "2023-05-01T16:01:48.074Z",
+      "profile": 8
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 7,
+    "fields": {
+      "title": "Articles from Nature",
+      "description": "Some of the articles I published for https://www.nature.com/",
+      "created_at": "2023-05-02T09:21:44.476Z",
+      "profile": 9
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 8,
+    "fields": {
+      "title": "новый блог",
+      "description": "Это новый блог",
+      "created_at": "2023-05-04T10:23:22.721Z",
+      "profile": 10
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 9,
+    "fields": {
+      "title": "еще вот блог",
+      "description": "и тут должны быть картинки",
+      "created_at": "2023-05-04T10:28:02.075Z",
+      "profile": 10
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 10,
+    "fields": {
+      "title": "другой новый блог",
+      "description": "но тоже тестовый",
+      "created_at": "2023-05-04T10:38:18.865Z",
+      "profile": 10
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 11,
+    "fields": {
+      "title": "Опять тестовый блог",
+      "description": "Да, опять",
+      "created_at": "2023-05-04T10:40:49.312Z",
+      "profile": 10
+    }
+  },
+  {
+    "model": "app_blog.blog",
+    "pk": 12,
+    "fields": {
+      "title": "new blog while testing",
+      "description": "some new description",
+      "created_at": "2023-05-06T13:26:19.679Z",
+      "profile": 25
+    }
+  }
+]

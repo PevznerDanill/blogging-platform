@@ -141,7 +141,11 @@ class BlogDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = 'id', 'title', 'description', 'posts', 'profile',
-        extra_kwargs = {'id': {'read_only': True}}
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'description': {'required': False},
+            'title': {'required': False}
+        }
 
     posts = serializers.HyperlinkedRelatedField(
         many=True,
@@ -202,6 +206,10 @@ class PostDetailSerializer(serializers.ModelSerializer):
             'published_at': {'read_only': True},
             'profile': {'read_only': True},
             'blog': {'read_only': True},
+            'title': {'required': False},
+            'tag': {'required': False},
+            'content': {'required': False},
+            'is_published': {'required': False},
         }
 
     images = ImageShortSerializer(many=True, read_only=True)
@@ -243,4 +251,9 @@ class ImageDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'title', 'image', 'post',
         )
-        extra_kwargs = {'id': {'read_only': True}, 'post': {'read_only': True}}
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'post': {'read_only': True},
+            'image': {'required': False},
+            'title': {'required': False},
+        }

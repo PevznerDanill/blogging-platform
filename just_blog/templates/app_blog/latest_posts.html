@@ -54,23 +54,6 @@
                                 </span>
                             {% endfor %}
                         </div>
-
-
-{#                        <span class="step-links">#}
-{#                            {% if page_obj.has_previous %}#}
-{#                                <a class="a-reset transition-link" href="?page=1">1</a>#}
-{#                                <a class="a-reset transition-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>#}
-{#                            {% endif %}#}
-{##}
-{#                            <span class="current">#}
-{#                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                            </span>#}
-{##}
-{#                            {% if page_obj.has_next %}#}
-{#                                <a class="a-reset transition-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>#}
-{#                                <a class="a-reset transition-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>#}
-{#                            {% endif %}#}
-{#                        </span>#}
                     </div>
             {% else %}
                 {% trans 'No blogs yet' %}

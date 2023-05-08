@@ -4,6 +4,7 @@ from app_auth.models import Profile
 import datetime
 from django.utils.timezone import make_aware
 from typing import Union
+from django.shortcuts import reverse
 
 
 class Blog(models.Model):
@@ -87,6 +88,12 @@ class Post(models.Model):
         tag = '#' + '#'.join(tag_parts)
         cleaned_tag = tag.replace('##', '#')
         return cleaned_tag
+
+    def get_absolute_url(self) -> str:
+        """
+        Generates absolute url for the post's page.
+        """
+        return reverse('app_blog:post_detail', kwargs={'pk': self.pk})
 
 
 class Image(models.Model):
