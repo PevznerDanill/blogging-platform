@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load cache %}
 
 {% block title %}
     {% trans 'About' %}
 {% endblock %}
 
 {% block body %}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% cache 86400 about LANGUAGE_CODE %}
     <section class="section-offset">
         <div class="container">
             <h1 class="title auth-title">
@@ -13,15 +16,17 @@
             </h1>
             <div class="post-content-container">
                 <p>
-                    {% trans 'This is a blogging project that allows see publicated posts of the authorized users' %}
+                    {% trans 'This is a blogging project that allows see posts published by authorized users' %}
                 </p>
                 <p>
                     {% trans 'The available languages are English, Russian and Spanish' %}
                 </p>
                 <p>
-                    {% trans 'If you need the API version of this website, please see the step by step instruction givven in the README.MD file ' %}
+                    {% trans 'If you need the API version of this website, please see the README.MD file and the specificaion' %}
+                    <a href="{% url 'schema_swagger_ui' %}">{% trans 'here' %}</a>
                 </p>
             </div>
         </div>
     </section>
+    {% endcache %}
 {% endblock %}

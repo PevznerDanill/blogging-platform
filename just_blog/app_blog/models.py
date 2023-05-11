@@ -41,6 +41,10 @@ class Post(models.Model):
     blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name='posts', verbose_name=_('blog'))
     profile = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name='posts', verbose_name=_('profile'))
 
+    class Meta:
+        verbose_name_plural = _('posts')
+        verbose_name = _('post')
+
     def __str__(self) -> str:
         """
         Returns the title of the post.

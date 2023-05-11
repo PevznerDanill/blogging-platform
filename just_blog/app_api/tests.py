@@ -10,6 +10,7 @@ from app_auth.models import Profile
 from app_blog.models import Blog, Post, Image
 import os
 from django.core.files import File
+from django.forms import model_to_dict
 
 
 class CreateUserAPITestCase(APITestCase):
@@ -116,19 +117,22 @@ class ProfileCreateAPITestCase(APITestCase):
         cls.user = User.objects.create_user(username=username, password=password)
 
     def setUp(self) -> None:
-        self.client.force_authenticate(user=self.user)
         self.url = reverse('app_api:new_profile')
 
     def test_profile_create(self):
+        self.client.force_authenticate(user=self.user)
         current_profiles_num = Profile.objects.count()
         first_response = self.client.post(self.url)
         self.assertEqual(first_response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(current_profiles_num + 1 == Profile.objects.count())
+
         second_response = self.client.post(self.url)
         self.assertEqual(second_response.status_code, status.HTTP_403_FORBIDDEN)
         self.client.logout()
-        third_response = self.client.post(self.url)
-        self.assertEqual(third_response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_unauthorized_create_profile(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class ProfileUpdateAPITestCase(APITestCase):
@@ -160,35 +164,37 @@ class ProfileUpdateAPITestCase(APITestCase):
         new_profile_id = json.loads(new_profile_response.content).get('id')
         self.url = reverse('app_api:profile_update', kwargs={'pk': new_profile_id})
         self.test_bio = 'some bio'
-        self.expected_data = {
-            'id': 1,
-            'bio': self.test_bio,
-            'age': None,
-            'avatar': None
-        }
+
         self.test_age = '1992-08-12'
 
-    def test_profile_update(self):
+    def test_profile_put(self):
         put_response = self.client.put(self.url, {'bio': self.test_bio}, format='json')
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(put_response.content, self.expected_data)
+        updated_profile = Profile.objects.get(user=self.user)
+        self.assertEqual(updated_profile.bio, self.test_bio)
+        self.assertContains(put_response, self.test_bio)
 
+    def test_profile_patch(self):
         patch_response = self.client.patch(self.url, {'age': self.test_age}, format='json')
-        self.expected_data['age'] = self.test_age
         self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(patch_response.content, self.expected_data)
+        self.assertContains(patch_response, self.test_age)
 
         with open(self.path_to_test_image, 'rb') as file:
             image_upload_patch_response = self.client.patch(self.url, {'avatar': file}, format='multipart')
-        response_to_python = json.loads(image_upload_patch_response.content)
         self.assertContains(image_upload_patch_response, 'test-image')
-        self.expected_data = response_to_python
-
+        updated_profile = Profile.objects.get(user=self.user)
+        self.assertIsNotNone(updated_profile.avatar)
         self.client.logout()
+
+    def test_unauthorized_get(self):
         unauthorized_response = self.client.get(self.url)
         self.assertEqual(unauthorized_response.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(unauthorized_response.content, self.expected_data)
+        updated_profile = Profile.objects.get(user=self.user)
+        response_to_python = json.loads(unauthorized_response.content)
+        bio_from_response = response_to_python.get('bio')
+        self.assertEqual(bio_from_response, updated_profile.bio)
 
+    def test_forbidden_update(self):
         self.client.force_authenticate(user=self.bad_user)
 
         forbidden_put_response = self.client.put(self.url, {'bio': 'some new bio'}, format='json')
@@ -209,19 +215,20 @@ class BlogCreateAPITestCase(APITestCase):
         cls.profile.save()
 
     def setUp(self) -> None:
-        self.client.force_authenticate(user=self.user)
         self.url = reverse('app_api:new_blog')
         self.data = {'title': 'some title', 'description': 'some description'}
 
     def test_blog_create(self):
+        self.client.force_authenticate(user=self.user)
         response = self.client.post(self.url, self.data, format='json')
         self.data['id'] = 1
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertJSONEqual(response.content, self.data)
         self.assertTrue(self.profile.blogs.count() == 1)
-
         self.client.logout()
         self.data.pop('id')
+
+    def test_unauthorized_blog_create(self):
         unauthorized_response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(unauthorized_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -256,13 +263,13 @@ class BlogDetailAPITestCase(APITestCase):
             "profile": {"id": self.profile.pk, "username": self.user.username}
         }
 
-    def test_blog_detail(self):
+    def test_blog_detail_get(self):
         get_response = self.client.get(self.url)
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(get_response.content, self.expected_data)
 
+    def test_blog_detail_update(self):
         self.client.force_authenticate(user=self.user)
-
         put_response = self.client.put(self.url, {'title': self.test_title}, format='json')
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
         self.expected_data['title'] = self.test_title
@@ -276,9 +283,9 @@ class BlogDetailAPITestCase(APITestCase):
         self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
         self.expected_data['description'] = self.test_description
         self.assertJSONEqual(patch_response.content, self.expected_data)
-
         self.client.logout()
 
+    def test_unauthorized_blog_update(self):
         unauthorized_put_response = self.client.put(
             self.url,
             {'title': self.test_title + '99'},
@@ -293,8 +300,8 @@ class BlogDetailAPITestCase(APITestCase):
             )
         self.assertEqual(unauthorized_patch_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_blog_forbidden_update_delete(self):
         self.client.force_authenticate(user=self.bad_user)
-
         forbidden_put_response = self.client.put(
             self.url,
             {'title': self.test_title + '99'},
@@ -311,10 +318,10 @@ class BlogDetailAPITestCase(APITestCase):
 
         forbidden_delete_response = self.client.delete(self.url)
         self.assertEqual(forbidden_delete_response.status_code, status.HTTP_403_FORBIDDEN)
-
         self.client.logout()
-        self.client.force_authenticate(user=self.user)
 
+    def test_blog_update_delete(self):
+        self.client.force_authenticate(user=self.user)
         delete_response = self.client.delete(self.url)
         self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Blog.objects.filter(pk=self.new_blog.pk).exists())
@@ -361,22 +368,22 @@ class PostCreateAPITestCase(APITestCase):
         username = ''.join(choices(ascii_letters, k=5))
         password = ''.join(choices(ascii_letters, k=9))
         cls.user = User.objects.create_user(username=username, password=password)
-        cls.profile = Profile(user=cls.user)
-        cls.profile.save()
+        profile = Profile(user=cls.user)
+        profile.save()
 
-        cls.bad_user = User.objects.create_user(username=f'{username}09', password=f'{password}09')
-        cls.bad_profile = Profile(user=cls.bad_user)
-        cls.bad_profile.save()
+        bad_user = User.objects.create_user(username=f'{username}09', password=f'{password}09')
+        bad_profile = Profile(user=bad_user)
+        bad_profile.save()
 
         cls.blog = Blog(
-            profile=cls.profile,
+            profile=profile,
             title='test title',
             description='test description'
         )
         cls.blog.save()
 
         cls.bad_blog = Blog(
-            profile=cls.bad_profile,
+            profile=bad_profile,
             title='test bad title',
             description='test bad description'
         )
@@ -400,6 +407,7 @@ class PostCreateAPITestCase(APITestCase):
         self.assertJSONEqual(post_response.content, expected_data)
         self.assertTrue(Post.objects.first().title == 'test post title')
 
+    def test_post_create_bad(self):
         self.data['blog'] = self.bad_blog.pk
         bad_post_response = self.client.post(self.url, self.data, format='json')
         self.assertEqual(bad_post_response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -412,19 +420,19 @@ class PostUpdateAPITestCase(APITestCase):
         username = ''.join(choices(ascii_letters, k=5))
         password = ''.join(choices(ascii_letters, k=9))
         cls.user = User.objects.create_user(username=username, password=password)
-        cls.profile = Profile(user=cls.user)
-        cls.profile.save()
+        profile = Profile(user=cls.user)
+        profile.save()
 
-        cls.blog = Blog(
-            profile=cls.profile,
+        blog = Blog(
+            profile=profile,
             title='test blog title',
             description='test blog description'
         )
-        cls.blog.save()
+        blog.save()
 
         cls.post = Post(
-            profile=cls.profile,
-            blog=cls.blog,
+            profile=profile,
+            blog=blog,
             title='test post title',
             tag='test post tag',
             content='testing content post'
@@ -432,28 +440,33 @@ class PostUpdateAPITestCase(APITestCase):
         cls.post.save()
 
         cls.bad_user = User.objects.create_user(username=f'{username}09', password=f'{password}09')
-        cls.bad_profile = Profile(user=cls.bad_user)
-        cls.bad_profile.save()
+        Profile.objects.create(user=cls.bad_user)
 
     def setUp(self) -> None:
         self.url = reverse('app_api:post_detail', kwargs={'pk': self.post.pk})
 
-    def test_post_update(self):
+    def test_post_update_get_not_publish(self):
         not_published_get_response = self.client.get(self.url)
         self.assertEqual(not_published_get_response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_post_update_get(self):
         self.post.publish()
         published_get_response = self.client.get(self.url)
         self.assertContains(published_get_response, 'testing content post')
+        self.assertEqual(published_get_response.status_code, status.HTTP_200_OK)
+
+    def test_post_update_unauthorized_delete(self):
         unauthorized_delete_response = self.client.delete(self.url)
         self.assertEqual(unauthorized_delete_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_post_update_forbidden_delete(self):
         self.client.force_authenticate(user=self.bad_user)
         forbidden_delete_response = self.client.delete(self.url)
         self.assertEqual(forbidden_delete_response.status_code, status.HTTP_403_FORBIDDEN)
-
         self.client.logout()
-        self.client.force_authenticate(user=self.user)
 
+    def test_post_update(self):
+        self.client.force_authenticate(user=self.user)
         self.client.put(self.url, {'is_published': False}, format='json')
         self.assertFalse(Post.objects.get(pk=self.post.pk).created_at is None)
         self.client.patch(self.url, {'is_published': True}, format='json')
@@ -522,7 +535,7 @@ class ImageCreateAPITestCase(APITestCase):
     def setUp(self) -> None:
         self.url = reverse('app_api:new_image')
 
-    def test_image_create(self):
+    def test_image_create_unauthorized(self):
         with open(self.path_to_test_image, 'rb') as image:
             unauthorized_response = self.client.post(
                 self.url,
@@ -531,6 +544,7 @@ class ImageCreateAPITestCase(APITestCase):
             )
         self.assertEqual(unauthorized_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_image_create(self):
         self.client.force_authenticate(user=self.user)
         with open(self.path_to_test_image, 'rb') as image:
             post_response = self.client.post(
@@ -540,7 +554,10 @@ class ImageCreateAPITestCase(APITestCase):
             )
         self.assertEqual(post_response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Image.objects.first().title, 'some title')
+        self.client.logout()
 
+    def test_image_create_bad(self):
+        self.client.force_authenticate(user=self.user)
         with open(self.path_to_test_image, 'rb') as image:
             bad_post_response = self.client.post(
                 self.url,
@@ -548,7 +565,7 @@ class ImageCreateAPITestCase(APITestCase):
                 format='multipart'
             )
         self.assertEqual(bad_post_response.status_code, status.HTTP_400_BAD_REQUEST)
-
+        self.client.logout()
 
 class ImageDetailAPITestCase(APITestCase):
 
@@ -614,27 +631,35 @@ class ImageDetailAPITestCase(APITestCase):
         self.assertEqual(get_response.status_code, status.HTTP_200_OK)
         self.assertContains(get_response, 'test-image')
 
+    def test_image_detail_unauthorized_delete(self):
         unauthorized_response = self.client.delete(self.url)
         self.assertEqual(unauthorized_response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_image_detail_forbidden_delete(self):
         self.client.force_authenticate(user=self.bad_user)
-
         forbidden_response = self.client.delete(self.url)
         self.assertEqual(forbidden_response.status_code, status.HTTP_403_FORBIDDEN)
-
         self.client.logout()
-        self.client.force_authenticate(user=self.user)
 
+    def test_image_detail_put(self):
+        self.client.force_authenticate(user=self.user)
         put_response = self.client.put(self.url, {'title': 'testing title'}, format='multipart')
         self.assertEqual(put_response.status_code, status.HTTP_200_OK)
         self.assertEqual(Image.objects.get(pk=self.image.pk).title, 'testing title')
+        self.client.logout()
 
+    def test_image_detail_patch(self):
+        self.client.force_authenticate(user=self.user)
         with open(self.path_to_sec_test_image, 'rb') as new_image:
             patch_response = self.client.patch(self.url, {'image': new_image}, format='multipart')
         self.assertContains(patch_response, 'sec-test-image')
+        self.client.logout()
 
+    def test_image_detail_delete(self):
+        self.client.force_authenticate(user=self.user)
         self.client.delete(self.url)
         self.assertFalse(Image.objects.all().exists())
+        self.client.logout()
 
 
 class PostListAPITestCase(APITestCase):

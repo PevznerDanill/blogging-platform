@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-08 07:46+0000\n"
+"POT-Creation-Date: 2023-05-11 08:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app_auth/forms.py:27 app_auth/forms.py:89
+#: app_auth/forms.py:27 app_auth/forms.py:92
 msgid "Password"
 msgstr "Contraseña"
 
@@ -36,7 +36,7 @@ msgstr "Requerido. 150 caracteres o menos. Solo letras, dígitos y @/./+/-/_."
 msgid "A user with that username already exists."
 msgstr "Un usuario con este nombre ya existe"
 
-#: app_auth/forms.py:48 app_auth/forms.py:86
+#: app_auth/forms.py:48 app_auth/forms.py:89
 msgid "User name"
 msgstr "Nombre de usuario"
 
@@ -44,25 +44,25 @@ msgstr "Nombre de usuario"
 msgid "First name"
 msgstr "Nombre"
 
-#: app_auth/forms.py:69 templates/app_auth/profile_detail.html:23
+#: app_auth/forms.py:70 templates/app_auth/profile_detail.html:23
 #: templates/app_auth/profile_public_detail.html:25
 msgid "Last name"
 msgstr "Apellido"
 
-#: app_auth/forms.py:74 templates/app_auth/profile_public_detail.html:30
+#: app_auth/forms.py:76 templates/app_auth/profile_public_detail.html:30
 msgid "Email"
 msgstr ""
 
-#: app_auth/forms.py:107
+#: app_auth/forms.py:110
 msgid "Bio"
 msgstr ""
 
-#: app_auth/forms.py:113 templates/app_auth/profile_detail.html:29
+#: app_auth/forms.py:116 templates/app_auth/profile_detail.html:29
 #: templates/app_auth/profile_public_detail.html:35
 msgid "Age"
 msgstr "Edad"
 
-#: app_auth/forms.py:117
+#: app_auth/forms.py:120
 msgid "Upload your avatar"
 msgstr "Carga tu avatar"
 
@@ -86,7 +86,7 @@ msgstr "tu foto"
 msgid "profiles"
 msgstr "perfiles"
 
-#: app_auth/models.py:25 app_blog/models.py:20 app_blog/models.py:41
+#: app_auth/models.py:25 app_blog/models.py:21 app_blog/models.py:42
 msgid "profile"
 msgstr "perfil"
 
@@ -114,52 +114,56 @@ msgstr "Contenido del post"
 msgid "Csv file"
 msgstr "Archivo CSV"
 
-#: app_blog/models.py:14 templates/app_blog/user_blog_list.html:11
+#: app_blog/models.py:15 templates/app_blog/user_blog_list.html:11
 #: templates/base.html:43
 msgid "blogs"
 msgstr ""
 
-#: app_blog/models.py:15 app_blog/models.py:40
+#: app_blog/models.py:16 app_blog/models.py:41
 msgid "blog"
 msgstr ""
 
-#: app_blog/models.py:17 app_blog/models.py:34 app_blog/models.py:96
+#: app_blog/models.py:18 app_blog/models.py:35 app_blog/models.py:107
 msgid "title"
 msgstr "título"
 
-#: app_blog/models.py:18
+#: app_blog/models.py:19
 msgid "description"
 msgstr "descripción"
 
-#: app_blog/models.py:19 app_blog/models.py:37
+#: app_blog/models.py:20 app_blog/models.py:38
 msgid "created at"
 msgstr "fecha de la creación"
 
-#: app_blog/models.py:35
+#: app_blog/models.py:36
 msgid "tag"
 msgstr ""
 
-#: app_blog/models.py:36
+#: app_blog/models.py:37
 msgid "content"
 msgstr "contenido"
 
-#: app_blog/models.py:38
+#: app_blog/models.py:39
 msgid "is published"
 msgstr "publicado"
 
-#: app_blog/models.py:39
+#: app_blog/models.py:40
 msgid "published at"
 msgstr "fecha de la publicación"
 
-#: app_blog/models.py:97 app_blog/models.py:101
-msgid "image"
-msgstr "imagen"
+#: app_blog/models.py:45
+msgid "posts"
+msgstr "posts"
 
-#: app_blog/models.py:98
+#: app_blog/models.py:46 app_blog/models.py:109
 msgid "post"
 msgstr "post"
 
-#: app_blog/models.py:102
+#: app_blog/models.py:108 app_blog/models.py:112
+msgid "image"
+msgstr "imagen"
+
+#: app_blog/models.py:113
 msgid "images"
 msgstr "imágenes"
 
@@ -385,33 +389,39 @@ msgstr "No tienes ningún blog comenzado"
 msgid "Start a new blog"
 msgstr "Comenzar un blog"
 
-#: templates/app_main/about.html:5 templates/base.html:49
+#: templates/app_main/about.html:6 templates/base.html:49
 msgid "About"
 msgstr "Sobre nosotros"
 
-#: templates/app_main/about.html:12
+#: templates/app_main/about.html:14
 msgid "About the project"
 msgstr "Sobre el proyecto"
 
-#: templates/app_main/about.html:16
+#: templates/app_main/about.html:18
 msgid ""
-"This is a blogging project that allows see publicated posts of the "
-"authorized users"
+"This is a blogging project that allows see posts published by authorized "
+"users"
 msgstr ""
 "Este proyecto es una plataforma de blogueo que permite explorar los posts "
 "publicados por los usuarios autorizados"
 
-#: templates/app_main/about.html:19
+#: templates/app_main/about.html:21
 msgid "The available languages are English, Russian and Spanish"
 msgstr "Los idiomas disponibles son inglés, ruso y español"
 
-#: templates/app_main/about.html:22
+#: templates/app_main/about.html:24
 msgid ""
-"If you need the API version of this website, please see the step by step "
-"instruction givven in the README.MD file "
-msgstr "Si necesitas una versión API de esta plataforma, consulta el README.MD archivo."
+"If you need the API version of this website, please see the README.MD file "
+"and the specificaion"
+msgstr ""
+"Si necesitas una versión API de esta plataforma, consulta el README.MD "
+"archivo. y la especificación"
 
-#: templates/app_main/contact.html:5 templates/app_main/contact.html:11
+#: templates/app_main/about.html:25
+msgid "here"
+msgstr "aquí"
+
+#: templates/app_main/contact.html:6 templates/app_main/contact.html:13
 #: templates/base.html:54
 msgid "Contacts"
 msgstr "Contactos"

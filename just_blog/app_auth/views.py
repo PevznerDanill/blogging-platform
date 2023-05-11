@@ -67,9 +67,9 @@ def update_view(request: HttpRequest, pk: int) -> Union[HttpResponseRedirect, Ht
     and ProfileForm with the fields bio, age and avatar.
     If both forms a valid, saves the changes and redirects to the app_auth:profile_detail path.
     """
+
     if request.user.profile.pk != pk:
-        if not request.user.is_superuser:
-            raise PermissionDenied
+        raise PermissionDenied
     if request.method == 'POST':
         user_form = MyUserChangeForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)

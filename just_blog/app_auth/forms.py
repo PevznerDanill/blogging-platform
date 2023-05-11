@@ -60,18 +60,21 @@ class MyUserChangeForm(UserChangeForm):
     first_name = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={'class': 'input'}),
-        label=_('First name')
+        label=_('First name'),
+        required=False
     )
 
     last_name = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={'class': 'input'}),
-        label=_('Last name')
+        label=_('Last name'),
+        required=False
     )
 
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'class': 'input email-input'}),
-        label=_('Email')
+        label=_('Email'),
+        required=False
     )
 
     password = None

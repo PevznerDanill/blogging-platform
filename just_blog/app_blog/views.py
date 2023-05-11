@@ -122,7 +122,7 @@ class BlogDetailView(DetailView):
 
 class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
-    A view for the process of removing of a Blog instance.
+    A view for the process of removing a Blog instance.
     """
     model = Blog
     template_name = 'app_blog/blog_delete.html'
@@ -362,7 +362,7 @@ class PostCreateView(UserPassesTestMixin, CreateView):
 
 class PostDetailView(UserPassesTestMixin, DetailView):
     """
-    A view class for the Profile object.
+    A view class for  details of a Post instance.
     """
     queryset = (
         Post.objects.select_related('blog', 'profile').
@@ -468,7 +468,7 @@ class BlogEditView(UserPassesTestMixin, UpdateView):
         return reverse('app_blog:blog_detail', kwargs={'pk': self.object.pk})
 
 
-class PostEditView(UserPassesTestMixin, UpdateView):
+class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     A view for the editing of the retrieved post.
     """
@@ -584,5 +584,6 @@ class LatestPostsView(ListView):
         profiles = Profile.objects.select_related('user').\
             prefetch_related('blogs', 'posts').filter(Q(posts__in=context['posts']))
         context['profiles'] = profiles
+
         return context
 

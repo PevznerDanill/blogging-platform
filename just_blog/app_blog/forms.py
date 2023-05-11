@@ -19,7 +19,7 @@ class BlogForm(forms.ModelForm):
     )
     description = forms.CharField(
         max_length=256,
-        widget=forms.Textarea(attrs={'class': 'input blog-descr-input','cols': '50', 'rows': '5'}),
+        widget=forms.Textarea(attrs={'class': 'input blog-descr-input', 'cols': '50', 'rows': '5'}),
         label=_('Description')
     )
 

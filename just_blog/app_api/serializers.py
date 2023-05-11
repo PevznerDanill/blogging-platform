@@ -20,7 +20,7 @@ class CurrentProfileDefault(CurrentUserDefault):
 
 class ProfileSerializer(serializers.ModelSerializer):
     """
-        A serializer for the Profile model with the fields bio, age and avatar (ergo all except user)
+        A serializer for the Profile model with the fields bio, age and avatar (ergo all except user).
         Used in the UserSerializer for the definition of the field profile.
     """
     class Meta:

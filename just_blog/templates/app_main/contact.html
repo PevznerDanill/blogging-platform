@@ -1,11 +1,14 @@
 {% extends 'base.html' %}>
 {% load i18n %}
+{% load cache %}
 
 {% block title %}
     {% trans 'Contacts' %}
 {% endblock %}
 
 {% block body %}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% cache 86400 contacts LANGUAGE_CODE %}
     <section class="section-offset">
         <div class="container">
             <h1 class="title auth-title">{% trans 'Contacts' %}</h1>
@@ -15,4 +18,5 @@
             </div>
         </div>
     </section>
+    {% endcache %}
 {% endblock %}
